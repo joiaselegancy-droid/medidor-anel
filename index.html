@@ -34,6 +34,7 @@ body {
   display: block;
 }
 
+/* ÁREA CENTRAL */
 #area {
   width: 280px;
   height: 280px;
@@ -42,8 +43,12 @@ body {
   border-radius: 12px;
   position: relative;
   background: white;
+
+  /* espaço extra pro slider */
+  margin-right: 100px;
 }
 
+/* CÍRCULO */
 .circulo {
   width: 120px;
   height: 120px;
@@ -55,14 +60,33 @@ body {
   transform: translate(-50%, -50%);
 }
 
+/* SLIDER MELHORADO */
 #slider {
   position: absolute;
-  right: -50px;
+  right: -110px; /* MAIS LONGE */
   top: 50%;
   transform: rotate(270deg) translateY(-50%);
-  width: 220px;
+  width: 260px;
 }
 
+/* trilho */
+#slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
+/* botão (thumb) */
+#slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  background: #1FB5B5;
+  border-radius: 50%;
+  margin-top: -9px;
+}
+
+/* botão */
 button {
   background: #1FB5B5;
   color: white;
@@ -115,9 +139,9 @@ button {
 <script>
 let pixelsPorMm = 1;
 
+// pegar todos sliders (tem 2)
 const sliders = document.querySelectorAll("#slider");
 
-// atualizar tamanho
 sliders.forEach(slider => {
   slider.addEventListener("input", function () {
     let valor = slider.value;
@@ -135,7 +159,7 @@ sliders.forEach(slider => {
   });
 });
 
-// calibração
+// calibração (50 centavos = 23mm)
 function confirmarCalibracao() {
   let px = document.getElementById("circuloCalibrar").offsetWidth;
 
