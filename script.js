@@ -8,28 +8,15 @@ const circuloCalibrar = document.getElementById("circuloCalibrar");
 const circuloMedir = document.getElementById("circuloMedir");
 
 // =========================
-// SLIDER CALIBRAÇÃO
+// CALIBRAÇÃO (MOEDA 50c = 23mm)
 // =========================
 sliderCalibrar.addEventListener("input", function () {
   let valor = this.value;
+
   circuloCalibrar.style.width = valor + "px";
   circuloCalibrar.style.height = valor + "px";
 });
 
-// =========================
-// SLIDER MEDIÇÃO
-// =========================
-sliderMedir.addEventListener("input", function () {
-  let valor = this.value;
-  circuloMedir.style.width = valor + "px";
-  circuloMedir.style.height = valor + "px";
-
-  calcularResultado(valor);
-});
-
-// =========================
-// CALIBRAÇÃO (50 centavos = 23mm)
-// =========================
 function confirmarCalibracao() {
   let px = circuloCalibrar.offsetWidth;
 
@@ -40,18 +27,26 @@ function confirmarCalibracao() {
 }
 
 // =========================
-// CÁLCULO PRECISO (DIÂMETRO INTERNO)
+// MEDIÇÃO
+// =========================
+sliderMedir.addEventListener("input", function () {
+  let valor = this.value;
+
+  circuloMedir.style.width = valor + "px";
+  circuloMedir.style.height = valor + "px";
+
+  calcularResultado(valor);
+});
+
+// =========================
+// CÁLCULO (DIÂMETRO EXTERNO)
 // =========================
 function calcularResultado(px) {
-  let borda = 6 * 2; // borda do anel (CSS)
+  let diametroMm = px / pixelsPorMm;
 
-  let diametroInternoPx = px - borda;
+  let circunferencia = diametroMm * Math.PI;
 
-  let diametroMm = diametroInternoPx / pixelsPorMm;
-
-  let circ = diametroMm * Math.PI;
-
-  let aro = Math.round(circ - 40);
+  let aro = Math.round(circunferencia - 40);
 
   if (aro < 8) aro = 8;
   if (aro > 30) aro = 30;
@@ -60,6 +55,7 @@ function calcularResultado(px) {
 
   let feedback = document.getElementById("feedback");
 
+  // ENCAIXE PERFEITO
   if (aro === ultimoAro) {
     circuloMedir.classList.add("perfeito");
     feedback.style.display = "block";
@@ -81,5 +77,8 @@ function calcularResultado(px) {
 // =========================
 function comprar() {
   let aro = document.getElementById("resultado").innerText.replace("Aro: ", "");
-  alert("Selecionado aro " + aro);
+
+  alert("Selecionado aro " + aro + ". Redirecionar para compra.");
+
+  // depois você pode colocar link real aqui
 }
