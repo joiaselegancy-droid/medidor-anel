@@ -9,22 +9,19 @@ body {
     background: linear-gradient(135deg, #f8f9fa, #e8f0f0);
     color: #333;
     min-height: 100vh;
-    padding: 0 0 30px;
+    padding-bottom: 30px;
 }
 
 .header {
     padding: 20px 15px;
     background: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    text-align: center;
 }
 
 .header h1 {
     color: #1FB5B5;
-    font-size: 1.8rem;
-    margin: 0;
+    font-size: 1.85rem;
 }
 
 .subtitle {
@@ -47,14 +44,13 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 /* Container do medidor */
 .medidor-container {
     position: relative;
-    width: 100%;
     max-width: 300px;
     margin: 30px auto;
     padding: 20px 0;
@@ -75,57 +71,65 @@ body {
 
 /* Círculo */
 .circulo {
-    width: 120px;
-    height: 120px;
-    background: rgba(31, 181, 181, 0.15);
+    width: 160px;
+    height: 160px;
+    background: rgba(31, 181, 181, 0.12);
     border: 5px solid #1FB5B5;
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     box-shadow: 0 0 0 8px rgba(31, 181, 181, 0.1);
 }
 
 .perfeito {
     background: rgba(0, 200, 83, 0.15);
     border-color: #00c853;
-    box-shadow: 0 0 0 10px rgba(0, 200, 83, 0.2);
+    box-shadow: 0 0 0 10px rgba(0, 200, 83, 0.25);
+}
+
+/* Guia do cartão horizontal */
+.guia-cartao-horizontal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 185px;
+    height: 88px;
+    border: 2.5px solid #ff9800;
+    border-radius: 12px;
+    opacity: 0.35;
+    pointer-events: none;
+    box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.2);
 }
 
 /* Slider */
 .slider {
     width: 260px;
-    margin: 40px auto 10px;
+    margin: 35px auto 10px;
     accent-color: #1FB5B5;
-}
-
-.slider::-webkit-slider-thumb {
-    width: 28px;
-    height: 28px;
-    background: white;
-    border: 3px solid #1FB5B5;
-    box-shadow: 0 4px 10px rgba(31, 181, 181, 0.3);
 }
 
 /* Resultado */
 .resultado {
-    font-size: 2.1rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: #1FB5B5;
-    margin: 25px 0 10px;
-    min-height: 60px;
+    text-align: center;
+    margin: 25px 0 8px;
 }
 
 .resultado span {
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     color: #00c853;
 }
 
 /* Feedback */
 .feedback {
-    min-height: 28px;
+    text-align: center;
+    min-height: 32px;
     font-weight: 600;
     margin: 10px 0;
 }
@@ -143,19 +147,13 @@ body {
     max-width: 320px;
     margin: 15px auto;
     display: block;
-    cursor: pointer;
     box-shadow: 0 6px 20px rgba(31, 181, 181, 0.3);
-    transition: all 0.3s;
-}
-
-.btn-primary:active {
-    transform: scale(0.96);
 }
 
 .btn-secundario {
     background: transparent;
     color: #666;
-    border: 2px solid #ddd;
+    border: 2px solid #ccc;
     padding: 14px 28px;
     border-radius: 50px;
     font-size: 1rem;
@@ -173,15 +171,13 @@ body {
     border-radius: 16px;
     margin: 20px auto;
     max-width: 300px;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 0.96rem;
+    line-height: 1.55;
     border-left: 5px solid #1FB5B5;
 }
 
-/* Responsividade */
 @media (max-width: 360px) {
-    .area-calibracao,
-    .area-medicao {
+    .area-calibracao, .area-medicao {
         width: 240px;
         height: 240px;
     }
