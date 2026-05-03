@@ -1,3 +1,4 @@
+alert("JS carregou");
 let pixelsPorMm = 1;
 
 // ==========================
