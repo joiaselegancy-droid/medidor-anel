@@ -1,114 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medidor de Anel - Elegancy Joias</title>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
-    .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 5px 25px rgba(0,0,0,0.08); }
-    h1 { color: #00B2A9; text-align: center; font-size: 32px; }
-    h2 { color: #333; font-size: 20px; margin: 25px 0 12px; }
-    p { color: #555; line-height: 1.5; }
-    input { padding: 14px; border: 2px solid #ddd; border-radius: 8px; width: 180px; font-size: 16px; }
-    button { background: #00B2A9; color: white; border: none; padding: 14px 30px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-left: 10px; }
-    button:hover { background: #008f8a; }
-    .resultado { display: none; margin: 30px 0; padding: 25px; background: #f0f9f8; border: 3px solid #00B2A9; border-radius: 12px; text-align: center; font-size: 18px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th { background: #00B2A9; color: white; padding: 15px; }
-    td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; }
-    .dica { text-align: center; color: #666; font-size: 14px; margin-top: 25px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Medidor de Anel • Elegancy Joias</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="header">
+        <h1>Elegancy Joias</h1>
+        <p class="subtitle">Medidor Virtual de Anel</p>
+    </header>
 
-<div class="container">
-  <h1>💍 Medidor de Anel - Elegancy Joias</h1>
-  <p style="text-align:center; font-size:17px;">Meça seu dedo em casa e descubra o tamanho perfeito</p>
+    <!-- TELA DE CALIBRAÇÃO -->
+    <main id="calibracao" class="tela ativa">
+        <div class="content">
+            <h2>Calibração</h2>
+            <p class="instrucao">Use a largura menor de um cartão de crédito</p>
+            
+            <div class="dica">
+                <strong>Como calibrar:</strong><br>
+                • Posicione o cartão <strong>na vertical</strong> na tela<br>
+                • Ajuste o círculo até encostar exatamente nas bordas
+            </div>
 
-  <h2>1. Com um anel que você já tem</h2>
-  <p>Meça o <strong>diâmetro interno</strong> (de uma borda interna à outra) em milímetros:</p>
-  <input type="number" id="diametro" placeholder="Ex: 18.5" step="0.1">
-  <button onclick="calcularPorDiametro()">Calcular</button>
+            <div class="medidor-container">
+                <div class="area-calibracao">
+                    <div id="circuloCalibrar" class="circulo"></div>
+                </div>
+                <input type="range" id="sliderCalibrar" class="slider" min="80" max="320" value="140" step="1">
+            </div>
 
-  <h2>2. Medindo direto no dedo</h2>
-  <p>Enrole uma tira de papel ou fio no dedo, marque e meça a <strong>circunferência</strong> em mm:</p>
-  <input type="number" id="circunferencia" placeholder="Ex: 58" step="0.1">
-  <button onclick="calcularPorCircunferencia()">Calcular</button>
+            <button onclick="confirmarCalibracao()" class="btn-primary">Confirmar Calibração</button>
+        </div>
+    </main>
 
-  <div id="resultado" class="resultado"></div>
+    <!-- TELA DE MEDIÇÃO -->
+    <main id="medicao" class="tela">
+        <div class="content">
+            <h2>Qual seu tamanho?</h2>
+            <p class="instrucao">Ajuste o círculo na <strong>parte interna</strong> do anel</p>
+            
+            <div class="dica">
+                • Encoste o círculo na borda <strong>interna</strong> do anel<br>
+                • Ajuste até ficar bem encaixado sem folga
+            </div>
 
-  <h2 style="text-align:center;">Tabela de Tamanhos (8 ao 30)</h2>
-  <table>
-    <thead>
-      <tr><th>Tamanho</th><th>Diâmetro (mm)</th><th>Circunferência (mm)</th></tr>
-    </thead>
-    <tbody id="tabela"></tbody>
-  </table>
+            <div class="medidor-container">
+                <div class="area-medicao">
+                    <div id="circuloMedir" class="circulo"></div>
+                </div>
+                <input type="range" id="sliderMedir" class="slider" min="80" max="320" value="140" step="1">
+            </div>
 
-  <p class="dica">Dica: Se ficar entre dois tamanhos, escolha o maior para maior conforto.</p>
-</div>
+            <div class="resultado">
+                <strong>Aro:</strong> <span id="tamanhoAro">--</span>
+            </div>
 
-<script>
-const tamanhos = [
-  {br: 8, diam: 15.3, circ: 48}, {br: 9, diam: 15.6, circ: 49},
-  {br: 10, diam: 15.9, circ: 50}, {br: 11, diam: 16.2, circ: 51},
-  {br: 12, diam: 16.5, circ: 52}, {br: 13, diam: 16.8, circ: 53},
-  {br: 14, diam: 17.2, circ: 54}, {br: 15, diam: 17.5, circ: 55},
-  {br: 16, diam: 17.8, circ: 56}, {br: 17, diam: 18.1, circ: 57},
-  {br: 18, diam: 18.5, circ: 58}, {br: 19, diam: 18.8, circ: 59},
-  {br: 20, diam: 19.1, circ: 60}, {br: 21, diam: 19.4, circ: 61},
-  {br: 22, diam: 19.7, circ: 62}, {br: 23, diam: 20.0, circ: 63},
-  {br: 24, diam: 20.4, circ: 64}, {br: 25, diam: 20.7, circ: 65},
-  {br: 26, diam: 21.0, circ: 66}, {br: 27, diam: 21.3, circ: 67},
-  {br: 28, diam: 21.7, circ: 68}, {br: 29, diam: 22.0, circ: 69},
-  {br: 30, diam: 22.3, circ: 70}
-];
+            <div id="feedback" class="feedback"></div>
 
-function gerarTabela() {
-  let html = '';
-  tamanhos.forEach(t => {
-    html += `<tr><td><strong>${t.br}</strong></td><td>${t.diam}</td><td>${t.circ}</td></tr>`;
-  });
-  document.getElementById('tabela').innerHTML = html;
-}
+            <button onclick="comprar()" class="btn-primary">Quero comprar neste tamanho</button>
+            <button onclick="voltarCalibracao()" class="btn-secundario">Refazer calibração</button>
+        </div>
+    </main>
 
-function encontrarTamanho(diam) {
-  let melhor = tamanhos[0];
-  let diffMin = Math.abs(tamanhos[0].diam - diam);
-  tamanhos.forEach(t => {
-    let diff = Math.abs(t.diam - diam);
-    if (diff < diffMin) { diffMin = diff; melhor = t; }
-  });
-  return melhor;
-}
-
-function mostrarResultado(diam, tamanho, circ) {
-  document.getElementById('resultado').innerHTML = `
-    <h2 style="color:#00B2A9; margin:0 0 15px 0;">Seu tamanho recomendado é <strong>${tamanho}</strong></h2>
-    <p><strong>Diâmetro:</strong> ${diam} mm | <strong>Circunferência:</strong> ${circ} mm</p>
-    <p style="margin-top:15px; font-size:16px;">✅ Este tamanho está disponível em nossa loja.</p>
-  `;
-  document.getElementById('resultado').style.display = 'block';
-}
-
-function calcularPorDiametro() {
-  const diam = parseFloat(document.getElementById('diametro').value);
-  if(!diam) return alert("Digite o diâmetro do anel.");
-  const tam = encontrarTamanho(diam);
-  mostrarResultado(diam.toFixed(1), tam.br, tam.circ);
-}
-
-function calcularPorCircunferencia() {
-  const circ = parseFloat(document.getElementById('circunferencia').value);
-  if(!circ) return alert("Digite a circunferência do dedo.");
-  const diam = (circ / Math.PI).toFixed(1);
-  const tam = encontrarTamanho(parseFloat(diam));
-  mostrarResultado(diam, tam.br, circ);
-}
-
-gerarTabela();
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
