@@ -17,21 +17,20 @@ sliderCalibrar.addEventListener("input", function () {
 
 function confirmarCalibracao() {
     const px = circuloCalibrar.offsetWidth;
-    
-    if (px < 100) {
-        alert("❌ Ajuste o círculo maior. Ele deve encostar nas bordas do cartão.");
+
+    if (px < 150) {
+        alert("❌ Ajuste o círculo maior até encostar nas laterais do cartão.");
         return;
     }
 
-    // Lado menor do cartão de crédito = 53.98 mm
-    pixelsPorMm = px / 53.98;
+    // Largura padrão de um cartão de crédito = 85.6 mm
+    pixelsPorMm = px / 85.6;
 
-    // Troca de tela com animação
     document.getElementById("calibracao").classList.remove("ativa");
     document.getElementById("medicao").classList.add("ativa");
 
-    // Sincroniza o slider de medição com o da calibração
-    sliderMedir.value = sliderCalibrar.value;
+    // Sincroniza slider de medição
+    sliderMedir.value = Math.round(sliderCalibrar.value * 0.82);
     atualizarMedicao();
 }
 
@@ -42,49 +41,39 @@ sliderMedir.addEventListener("input", function () {
 
 function atualizarMedicao() {
     const valor = parseInt(sliderMedir.value);
-    
     circuloMedir.style.width = valor + "px";
     circuloMedir.style.height = valor + "px";
-
     calcularTamanhoAro(valor);
 }
 
-// Cálculo mais preciso do tamanho de anel brasileiro
 function calcularTamanhoAro(px) {
     if (pixelsPorMm === 0) return;
 
-    const diametroInternoMm = px / pixelsPorMm;
-    const circunferenciaMm = diametroInternoMm * Math.PI;
+    const diametroMm = px / pixelsPorMm;
+    const circunferenciaMm = diametroMm * Math.PI;
 
-    // Fórmula aproximada para numeração brasileira (ARO)
-    // Baseado na circunferência interna
-    let aro = Math.round((circunferenciaMm - 36.5) / 1.2);
-
-    // Limites realistas
+    // Cálculo aproximado para numeração brasileira
+    let aro = Math.round((circunferenciaMm - 36) / 1.18);
     aro = Math.max(8, Math.min(35, aro));
 
-    // Atualiza resultado
     tamanhoAroEl.textContent = aro;
 
-    // Feedback visual
-    const diferenca = Math.abs(aro - (ultimoAro || aro));
-    
-    if (diferenca === 0 && aro === ultimoAro) {
+    // Feedback
+    if (aro === ultimoAro) {
         circuloMedir.classList.add("perfeito");
         feedbackEl.innerHTML = "✅ Encaixe perfeito!";
         feedbackEl.style.color = "#00c853";
-        
         if (navigator.vibrate) navigator.vibrate([15, 10, 15]);
     } else {
         circuloMedir.classList.remove("perfeito");
         feedbackEl.innerHTML = "Ajuste até encaixar perfeitamente";
-        feedbackEl.style.color = "#666";
+        feedbackEl.style.color = "#555";
     }
 
     ultimoAro = aro;
 }
 
-// ====================== OUTRAS FUNÇÕES ======================
+// ====================== FUNÇÕES AUXILIARES ======================
 function voltarCalibracao() {
     document.getElementById("medicao").classList.remove("ativa");
     document.getElementById("calibracao").classList.add("ativa");
@@ -92,27 +81,16 @@ function voltarCalibracao() {
 
 function comprar() {
     const aro = tamanhoAroEl.textContent;
-    
-    if (aro === "--" || pixelsPorMm === 0) {
-        alert("❌ Primeiro faça a calibração e ajuste o anel.");
+    if (aro === "--") {
+        alert("Faça a calibração primeiro.");
         return;
     }
-
-    const confirmacao = confirm(`Deseja comprar um anel no tamanho Aro ${aro}?`);
-    if (confirmacao) {
-        alert(`✅ Pedido de Aro ${aro} registrado!\n\nEm uma loja real, isso abriria o carrinho.`);
-        // Aqui você pode integrar com WhatsApp, loja, etc.
-    }
+    alert(`✅ Aro ${aro} selecionado!\n\nPronto para compra segura.`);
 }
 
 // Inicialização
-window.onload = function() {
-    // Define valores iniciais mais agradáveis
-    sliderCalibrar.value = 180;
-    circuloCalibrar.style.width = "180px";
-    circuloCalibrar.style.height = "180px";
-    
-    sliderMedir.value = 160;
-    circuloMedir.style.width = "160px";
-    circuloMedir.style.height = "160px";
+window.onload = () => {
+    sliderCalibrar.value = 205;
+    circuloCalibrar.style.width = "205px";
+    circuloCalibrar.style.height = "205px";
 };
