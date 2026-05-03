@@ -1,87 +1,71 @@
-alert("JS carregou");
 let pixelsPorMm = 1;
 
-// ==========================
-// AJUSTE DO CÍRCULO (TOQUE)
-// ==========================
+// =========================
+// BLOQUEAR ZOOM (iPhone)
+// =========================
+document.addEventListener("gesturestart", function (e) {
+  e.preventDefault();
+});
+
+// =========================
+// CONTROLE DO CÍRCULO (TOQUE PRECISO)
+// =========================
 function ativarResize(id) {
   const el = document.getElementById(id);
 
-  let startX, startSize;
+  el.addEventListener("touchmove", function(e) {
+    e.preventDefault();
 
-  el.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    startSize = el.offsetWidth;
-  });
+    let touch = e.touches[0];
+    let area = el.parentElement.getBoundingClientRect();
 
-  el.addEventListener("touchmove", (e) => {
-    let moveX = e.touches[0].clientX;
-    let diff = moveX - startX;
+    let centerX = area.left + area.width / 2;
+    let centerY = area.top + area.height / 2;
 
-    let novo = startSize + diff;
+    let dx = touch.clientX - centerX;
+    let dy = touch.clientY - centerY;
+
+    let distancia = Math.sqrt(dx * dx + dy * dy);
+
+    let novo = distancia * 2;
 
     if (novo > 50 && novo < 300) {
       el.style.width = novo + "px";
       el.style.height = novo + "px";
 
-      if (id === "circuloMedicao") {
+      if (id === "circuloMedir") {
         calcularResultado(novo);
       }
     }
-  });
+  }, { passive: false });
 }
 
 // ativar nos dois círculos
-ativarResize("circulo");
-ativarResize("circuloMedicao");
+ativarResize("circuloCalibrar");
+ativarResize("circuloMedir");
 
-
-// ==========================
-// CALIBRAÇÃO
-// ==========================
+// =========================
+// CALIBRAÇÃO (50 centavos = 23mm)
+// =========================
 function confirmarCalibracao() {
-  let tamanhoPx = document.getElementById("circulo").offsetWidth;
+  let px = document.getElementById("circuloCalibrar").offsetWidth;
 
-  pixelsPorMm = tamanhoPx / 27;
+  pixelsPorMm = px / 23;
 
-  trocarTela("medicao");
+  document.getElementById("calibracao").classList.remove("ativa");
+  document.getElementById("medicao").classList.add("ativa");
 }
 
-
-// ==========================
-// TROCAR TELA
-// ==========================
-function trocarTela(id) {
-  document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
-  document.getElementById(id).classList.add("ativa");
-}
-
-
-// ==========================
-// CALCULAR ARO
-// ==========================
+// =========================
+// CÁLCULO DO ARO (8 a 30)
+// =========================
 function calcularResultado(px) {
   let mm = px / pixelsPorMm;
 
-  let aro = calcularAro(mm);
+  let aro = Math.round((mm - 10) * 2);
+
+  if (aro < 8) aro = 8;
+  if (aro > 30) aro = 30;
 
   document.getElementById("resultado").innerText = "Aro: " + aro;
-}
-
-
-// ==========================
-// TABELA DE ARO
-// ==========================
-function calcularAro(d) {
-  if (d < 14.3) return 8;
-  else if (d < 14.7) return 9;
-  else if (d < 15.1) return 10;
-  else if (d < 15.5) return 11;
-  else if (d < 15.9) return 12;
-  else if (d < 16.3) return 13;
-  else if (d < 16.7) return 14;
-  else if (d < 17.1) return 15;
-  else if (d < 17.5) return 16;
-  else if (d < 17.9) return 17;
-  else return 18;
 }
