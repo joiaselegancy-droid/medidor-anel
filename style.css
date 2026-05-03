@@ -1,143 +1,70 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; background:#f5f7f7; text-align:center; padding:20px; }
 
-body {
-    font-family: 'Segoe UI', system-ui, Arial, sans-serif;
-    background: linear-gradient(135deg, #f8f9fa, #e8f0f0);
-    color: #333;
-    min-height: 100vh;
-}
+header h1 { color:#1FB5B5; font-size:2rem; margin-bottom:20px; }
 
-.header {
-    padding: 20px 15px;
-    background: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    text-align: center;
-}
+.tela { display:none; }
+.tela.ativa { display:block; }
 
-.header h1 { color: #1FB5B5; font-size: 1.85rem; }
-.subtitle { color: #666; font-size: 0.95rem; margin-top: 4px; }
-
-/* Telas */
-.tela { display: none; padding: 20px 15px; max-width: 420px; margin: 0 auto; }
-.tela.ativa { display: block; }
-
-/* Container */
-.medidor-container {
-    position: relative;
-    max-width: 300px;
-    margin: 30px auto;
-    padding: 20px 0;
-}
-
-.area-calibracao,
-.area-medicao {
+.area {
     width: 280px;
     height: 280px;
-    margin: 0 auto;
-    border: 3px dashed #ccc;
-    border-radius: 20px;
-    background: white;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin: 20px auto;
     position: relative;
+    background: #e8f5e9;
+    border-radius: 20px;
     overflow: hidden;
 }
 
-/* Círculo */
+.borda-azul {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 4px solid #1e88e5;
+    border-radius: 12px;
+    z-index: 1;
+}
+
 .circulo {
-    width: 160px;
-    height: 160px;
-    background: rgba(31, 181, 181, 0.12);
-    border: 5px solid #1FB5B5;
-    border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all 0.2s ease;
-    box-shadow: 0 0 0 8px rgba(31, 181, 181, 0.1);
+    border-radius: 50%;
+    border: 6px solid #4caf50;
+    background: rgba(76,175,80,0.15);
+    z-index: 2;
+    transition: all 0.1s;
 }
 
-.perfeito {
-    background: rgba(0, 200, 83, 0.15);
-    border-color: #00c853;
-    box-shadow: 0 0 0 12px rgba(0, 200, 83, 0.25);
-}
+.circulo.rosa { border-color: #e91e63; }
 
-/* Guia lateral esquerda para alinhamento do cartão */
-.guia-esquerda {
-    position: absolute;
-    left: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 180px;
-    background: #ff9800;
-    opacity: 0.6;
-    border-radius: 4px;
-}
-
-/* Slider */
-.slider {
-    width: 260px;
-    margin: 40px auto 15px;
-    accent-color: #1FB5B5;
-}
-
-/* Resultado */
-.resultado {
-    font-size: 2.3rem;
-    font-weight: 700;
-    color: #1FB5B5;
-    text-align: center;
-    margin: 25px 0 10px;
-}
-.resultado span { color: #00c853; font-size: 2.7rem; }
-
-/* Feedback */
-.feedback {
-    text-align: center;
-    min-height: 32px;
-    font-weight: 600;
-    color: #00c853;
-}
-
-/* Botões */
-.btn-primary {
+.controles button {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
     background: #1FB5B5;
     color: white;
     border: none;
-    padding: 16px 32px;
-    border-radius: 50px;
+    border-radius: 50%;
+    margin: 0 15px;
+}
+
+.resultado {
+    font-size: 2.5rem;
+    margin: 20px 0;
+    color: #1FB5B5;
+}
+
+.btn, .btn-sec {
+    padding: 15px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 30px;
     font-size: 1.1rem;
-    font-weight: 600;
-    width: 100%;
-    max-width: 320px;
-    margin: 15px auto;
-    display: block;
 }
 
-.btn-secundario {
-    background: transparent;
-    color: #666;
-    border: 2px solid #ccc;
-    padding: 14px 28px;
-    border-radius: 50px;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 320px;
-    margin: 8px auto;
-    display: block;
-}
-
-/* Dicas */
-.dica {
-    background: #f8f1e3;
-    color: #8d6e3f;
-    padding: 16px;
-    border-radius: 16px;
-    margin: 20px auto;
-    max-width: 300px;
-    font-size: 0.96rem;
-    line-height: 1.55;
-    border-left: 5px solid #1FB5B5;
-}
+.btn { background:#1FB5B5; color:white; }
+.btn-sec { background:#ddd; }
