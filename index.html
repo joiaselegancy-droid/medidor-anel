@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Medidor de Anel - Elegancy Joias</title>
 
 <style>
@@ -17,12 +17,11 @@ body {
 .header {
   padding: 20px;
   background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .header h1 {
   margin: 0;
-  font-size: 18px;
   color: #1FB5B5;
 }
 
@@ -40,9 +39,9 @@ body {
   height: 280px;
   margin: 30px auto;
   border: 2px dashed #ccc;
+  border-radius: 12px;
   position: relative;
   background: white;
-  border-radius: 12px;
 }
 
 .circulo {
@@ -54,7 +53,14 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  touch-action: none;
+}
+
+#slider {
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: rotate(270deg) translateY(-50%);
+  width: 220px;
 }
 
 button {
@@ -64,16 +70,12 @@ button {
   padding: 14px 24px;
   border-radius: 25px;
   font-size: 16px;
-  margin-top: 20px;
-}
-
-h2 {
-  color: #1FB5B5;
 }
 
 #resultado {
-  font-size: 22px;
+  font-size: 24px;
   margin-top: 20px;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -87,10 +89,11 @@ h2 {
 <!-- CALIBRAÇÃO -->
 <div id="calibracao" class="tela ativa">
   <h2>Calibração</h2>
-  <p>Coloque uma moeda de 50 centavos na tela e ajuste o círculo</p>
+  <p>Coloque uma moeda de 50 centavos e ajuste o círculo</p>
 
   <div id="area">
     <div id="circuloCalibrar" class="circulo"></div>
+    <input type="range" id="slider" min="50" max="300" value="120">
   </div>
 
   <button onclick="confirmarCalibracao()">Confirmar</button>
@@ -99,10 +102,11 @@ h2 {
 <!-- MEDIÇÃO -->
 <div id="medicao" class="tela">
   <h2>Descubra seu tamanho</h2>
-  <p>Ajuste o círculo ao tamanho do seu dedo</p>
+  <p>Ajuste o círculo ao tamanho do dedo</p>
 
   <div id="area">
     <div id="circuloMedir" class="circulo"></div>
+    <input type="range" id="slider" min="50" max="300" value="120">
   </div>
 
   <div id="resultado">Aro: --</div>
@@ -111,41 +115,30 @@ h2 {
 <script>
 let pixelsPorMm = 1;
 
-// toque
-function ativarResize(id) {
-  const el = document.getElementById(id);
+const sliders = document.querySelectorAll("#slider");
 
-  let startX = 0;
-  let startSize = 0;
+// atualizar tamanho
+sliders.forEach(slider => {
+  slider.addEventListener("input", function () {
+    let valor = slider.value;
 
-  el.addEventListener("touchstart", function(e) {
-    startX = e.touches[0].clientX;
-    startSize = el.offsetWidth;
-  });
-
-  el.addEventListener("touchmove", function(e) {
-    let moveX = e.touches[0].clientX;
-    let diff = moveX - startX;
-
-    let novo = startSize + diff;
-
-    if (novo > 50 && novo < 300) {
-      el.style.width = novo + "px";
-      el.style.height = novo + "px";
-
-      if (id === "circuloMedir") {
-        calcularResultado(novo);
-      }
+    if (document.getElementById("calibracao").classList.contains("ativa")) {
+      let el = document.getElementById("circuloCalibrar");
+      el.style.width = valor + "px";
+      el.style.height = valor + "px";
+    } else {
+      let el = document.getElementById("circuloMedir");
+      el.style.width = valor + "px";
+      el.style.height = valor + "px";
+      calcularResultado(valor);
     }
   });
-}
+});
 
-ativarResize("circuloCalibrar");
-ativarResize("circuloMedir");
-
-// calibração moeda 50 centavos (23mm)
+// calibração
 function confirmarCalibracao() {
   let px = document.getElementById("circuloCalibrar").offsetWidth;
+
   pixelsPorMm = px / 23;
 
   document.getElementById("calibracao").classList.remove("ativa");
