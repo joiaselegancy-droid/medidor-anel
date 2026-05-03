@@ -1,69 +1,162 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Medidor de Anel • Elegancy Joias</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Medidor de Anel - Elegancy Joias</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7f7;
+  text-align: center;
+  color: #333;
+}
+
+.header {
+  padding: 20px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.header h1 {
+  margin: 0;
+  color: #1FB5B5;
+}
+
+.tela {
+  display: none;
+  padding: 20px;
+}
+
+.ativa {
+  display: block;
+}
+
+#area {
+  width: 280px;
+  height: 280px;
+  margin: 30px auto;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  position: relative;
+  background: white;
+}
+
+.circulo {
+  width: 120px;
+  height: 120px;
+  border: 3px solid #1FB5B5;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#slider {
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: rotate(270deg) translateY(-50%);
+  width: 220px;
+}
+
+button {
+  background: #1FB5B5;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+}
+
+#resultado {
+  font-size: 24px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+</style>
 </head>
+
 <body>
-    <header class="header">
-        <h1>Elegancy Joias</h1>
-        <p class="subtitle">Medidor Virtual de Anel</p>
-    </header>
 
-    <!-- TELA DE CALIBRAÇÃO -->
-    <main id="calibracao" class="tela ativa">
-        <div class="content">
-            <h2>Calibração</h2>
-            <p class="instrucao">Use a largura menor de um cartão de crédito</p>
-            
-            <div class="dica">
-                <strong>Como calibrar:</strong><br>
-                • Posicione o cartão <strong>na vertical</strong> na tela<br>
-                • Ajuste o círculo até encostar exatamente nas bordas
-            </div>
+<div class="header">
+  <h1>Elegancy Joias</h1>
+</div>
 
-            <div class="medidor-container">
-                <div class="area-calibracao">
-                    <div id="circuloCalibrar" class="circulo"></div>
-                </div>
-                <input type="range" id="sliderCalibrar" class="slider" min="80" max="320" value="140" step="1">
-            </div>
+<!-- CALIBRAÇÃO -->
+<div id="calibracao" class="tela ativa">
+  <h2>Calibração</h2>
+  <p>Coloque uma moeda de 50 centavos e ajuste o círculo</p>
 
-            <button onclick="confirmarCalibracao()" class="btn-primary">Confirmar Calibração</button>
-        </div>
-    </main>
+  <div id="area">
+    <div id="circuloCalibrar" class="circulo"></div>
+    <input type="range" id="slider" min="50" max="300" value="120">
+  </div>
 
-    <!-- TELA DE MEDIÇÃO -->
-    <main id="medicao" class="tela">
-        <div class="content">
-            <h2>Qual seu tamanho?</h2>
-            <p class="instrucao">Ajuste o círculo na <strong>parte interna</strong> do anel</p>
-            
-            <div class="dica">
-                • Encoste o círculo na borda <strong>interna</strong> do anel<br>
-                • Ajuste até ficar bem encaixado sem folga
-            </div>
+  <button onclick="confirmarCalibracao()">Confirmar</button>
+</div>
 
-            <div class="medidor-container">
-                <div class="area-medicao">
-                    <div id="circuloMedir" class="circulo"></div>
-                </div>
-                <input type="range" id="sliderMedir" class="slider" min="80" max="320" value="140" step="1">
-            </div>
+<!-- MEDIÇÃO -->
+<div id="medicao" class="tela">
+  <h2>Descubra seu tamanho</h2>
+  <p>Ajuste o círculo ao tamanho do dedo</p>
 
-            <div class="resultado">
-                <strong>Aro:</strong> <span id="tamanhoAro">--</span>
-            </div>
+  <div id="area">
+    <div id="circuloMedir" class="circulo"></div>
+    <input type="range" id="slider" min="50" max="300" value="120">
+  </div>
 
-            <div id="feedback" class="feedback"></div>
+  <div id="resultado">Aro: --</div>
+</div>
 
-            <button onclick="comprar()" class="btn-primary">Quero comprar neste tamanho</button>
-            <button onclick="voltarCalibracao()" class="btn-secundario">Refazer calibração</button>
-        </div>
-    </main>
+<script>
+let pixelsPorMm = 1;
 
-    <script src="script.js"></script>
+const sliders = document.querySelectorAll("#slider");
+
+// atualizar tamanho
+sliders.forEach(slider => {
+  slider.addEventListener("input", function () {
+    let valor = slider.value;
+
+    if (document.getElementById("calibracao").classList.contains("ativa")) {
+      let el = document.getElementById("circuloCalibrar");
+      el.style.width = valor + "px";
+      el.style.height = valor + "px";
+    } else {
+      let el = document.getElementById("circuloMedir");
+      el.style.width = valor + "px";
+      el.style.height = valor + "px";
+      calcularResultado(valor);
+    }
+  });
+});
+
+// calibração
+function confirmarCalibracao() {
+  let px = document.getElementById("circuloCalibrar").offsetWidth;
+
+  pixelsPorMm = px / 23;
+
+  document.getElementById("calibracao").classList.remove("ativa");
+  document.getElementById("medicao").classList.add("ativa");
+}
+
+// cálculo aro
+function calcularResultado(px) {
+  let mm = px / pixelsPorMm;
+
+  let aro = Math.round((mm - 10) * 2);
+
+  if (aro < 8) aro = 8;
+  if (aro > 30) aro = 30;
+
+  document.getElementById("resultado").innerText = "Aro: " + aro;
+}
+</script>
+
 </body>
 </html>
