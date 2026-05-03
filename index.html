@@ -25,23 +25,15 @@ body {
   color: #1FB5B5;
 }
 
-.tela {
-  display: none;
-  padding: 20px;
-}
+.tela { display: none; padding: 20px; }
+.ativa { display: block; }
 
-.ativa {
-  display: block;
-}
-
-/* CONTAINER CENTRAL */
 .container {
   position: relative;
   width: 280px;
   margin: 30px auto;
 }
 
-/* ÁREA DO CÍRCULO */
 #area {
   width: 280px;
   height: 280px;
@@ -55,31 +47,31 @@ body {
 .circulo {
   width: 120px;
   height: 120px;
+  background: rgba(31, 181, 181, 0.15);
   border: 3px solid #1FB5B5;
   border-radius: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transition: all 0.15s ease;
 }
 
-/* SLIDER AGORA FORA DO CENTRO */
+/* ENCAIXE PERFEITO */
+.perfeito {
+  border-color: #00c853;
+  box-shadow: 0 0 15px #00c853;
+  background: rgba(0, 200, 83, 0.15);
+}
+
 #slider {
   position: absolute;
-  right: -80px; /* afastado SEM mover o centro */
+  right: -80px;
   top: 50%;
   transform: rotate(270deg) translateY(-50%);
   width: 260px;
 }
 
-/* trilho */
-#slider::-webkit-slider-runnable-track {
-  height: 8px;
-  background: #ddd;
-  border-radius: 10px;
-}
-
-/* bolinha */
 #slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 26px;
@@ -89,7 +81,6 @@ body {
   margin-top: -9px;
 }
 
-/* botão */
 button {
   background: #1FB5B5;
   color: white;
@@ -97,12 +88,20 @@ button {
   padding: 14px 24px;
   border-radius: 25px;
   font-size: 16px;
+  margin-top: 15px;
 }
 
 #resultado {
   font-size: 24px;
   margin-top: 20px;
   font-weight: bold;
+}
+
+#feedback {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #00c853;
+  display: none;
 }
 </style>
 </head>
@@ -116,7 +115,7 @@ button {
 <!-- CALIBRAÇÃO -->
 <div id="calibracao" class="tela ativa">
   <h2>Calibração</h2>
-  <p>Coloque uma moeda de 50 centavos e ajuste o círculo</p>
+  <p>Use uma moeda de 50 centavos</p>
 
   <div class="container">
     <div id="area">
@@ -131,7 +130,6 @@ button {
 <!-- MEDIÇÃO -->
 <div id="medicao" class="tela">
   <h2>Descubra seu tamanho</h2>
-  <p>Ajuste o círculo ao tamanho do dedo</p>
 
   <div class="container">
     <div id="area">
@@ -141,10 +139,14 @@ button {
   </div>
 
   <div id="resultado">Aro: --</div>
+  <div id="feedback">✔ Encaixe perfeito</div>
+
+  <button onclick="comprar()">Comprar com esse tamanho</button>
 </div>
 
 <script>
 let pixelsPorMm = 1;
+let ultimoAro = null;
 
 const sliders = document.querySelectorAll("#slider");
 
@@ -165,24 +167,54 @@ sliders.forEach(slider => {
   });
 });
 
+function confirmarCalibracao() {
+  let px = document.getElementById("circuloCalibrar").offsetWidth;
+  pixelsPorMm = px / 23;
+
+  document.getElementById("calibracao").classList.remove("ativa");
+  document.getElementById("medicao").classList.add("ativa");
+}
+
 function calcularResultado(px) {
-  // converte pixels para milímetros (usando calibração)
-  let diametroMm = px / pixelsPorMm;
+  let diametro = px / pixelsPorMm;
+  let circ = diametro * Math.PI;
+  let aro = Math.round(circ - 40);
 
-  // calcula circunferência real do anel
-  let circunferencia = diametroMm * Math.PI;
-
-  // converte para aro brasileiro
-  let aro = Math.round(circunferencia - 40);
-
-  // limites de segurança
   if (aro < 8) aro = 8;
   if (aro > 30) aro = 30;
 
-  // exibir resultado
   document.getElementById("resultado").innerText = "Aro: " + aro;
+
+  let circulo = document.getElementById("circuloMedir");
+  let feedback = document.getElementById("feedback");
+
+  // FEEDBACK VISUAL
+  if (aro === ultimoAro) {
+    circulo.classList.add("perfeito");
+    feedback.style.display = "block";
+
+    // vibração leve
+    if (navigator.vibrate) {
+      navigator.vibrate(10);
+    }
+
+  } else {
+    circulo.classList.remove("perfeito");
+    feedback.style.display = "none";
+  }
+
+  ultimoAro = aro;
 }
-  
+
+// BOTÃO COMPRAR
+function comprar() {
+  let texto = document.getElementById("resultado").innerText;
+  let aro = texto.replace("Aro: ", "");
+
+  alert("Você escolheu aro " + aro + ". Redirecionar para compra.");
+
+  // aqui depois você pode colocar link real da sua loja
+}
 </script>
 
 </body>
