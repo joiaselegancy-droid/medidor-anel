@@ -18,19 +18,19 @@ sliderCalibrar.addEventListener("input", function () {
 function confirmarCalibracao() {
     const px = circuloCalibrar.offsetWidth;
 
-    if (px < 150) {
-        alert("❌ Ajuste o círculo maior até encostar nas laterais do cartão.");
+    if (px < 140) {
+        alert("❌ Ajuste o círculo maior, ele deve ficar do tamanho do cartão.");
         return;
     }
 
-    // Largura padrão de um cartão de crédito = 85.6 mm
-    pixelsPorMm = px / 85.6;
+    pixelsPorMm = px / 85.6; // largura padrão do cartão
 
+    // Troca de tela
     document.getElementById("calibracao").classList.remove("ativa");
     document.getElementById("medicao").classList.add("ativa");
 
-    // Sincroniza slider de medição
-    sliderMedir.value = Math.round(sliderCalibrar.value * 0.82);
+    // Sincroniza slider
+    sliderMedir.value = Math.round(px * 0.75);
     atualizarMedicao();
 }
 
@@ -50,30 +50,23 @@ function calcularTamanhoAro(px) {
     if (pixelsPorMm === 0) return;
 
     const diametroMm = px / pixelsPorMm;
-    const circunferenciaMm = diametroMm * Math.PI;
-
-    // Cálculo aproximado para numeração brasileira
-    let aro = Math.round((circunferenciaMm - 36) / 1.18);
+    const circunferencia = diametroMm * Math.PI;
+    let aro = Math.round((circunferencia - 36) / 1.2);
     aro = Math.max(8, Math.min(35, aro));
 
     tamanhoAroEl.textContent = aro;
 
-    // Feedback
     if (aro === ultimoAro) {
         circuloMedir.classList.add("perfeito");
-        feedbackEl.innerHTML = "✅ Encaixe perfeito!";
-        feedbackEl.style.color = "#00c853";
-        if (navigator.vibrate) navigator.vibrate([15, 10, 15]);
+        feedbackEl.textContent = "✅ Encaixe perfeito!";
     } else {
         circuloMedir.classList.remove("perfeito");
-        feedbackEl.innerHTML = "Ajuste até encaixar perfeitamente";
-        feedbackEl.style.color = "#555";
+        feedbackEl.textContent = "";
     }
-
     ultimoAro = aro;
 }
 
-// ====================== FUNÇÕES AUXILIARES ======================
+// ====================== OUTRAS FUNÇÕES ======================
 function voltarCalibracao() {
     document.getElementById("medicao").classList.remove("ativa");
     document.getElementById("calibracao").classList.add("ativa");
@@ -81,16 +74,13 @@ function voltarCalibracao() {
 
 function comprar() {
     const aro = tamanhoAroEl.textContent;
-    if (aro === "--") {
-        alert("Faça a calibração primeiro.");
-        return;
-    }
-    alert(`✅ Aro ${aro} selecionado!\n\nPronto para compra segura.`);
+    if (aro === "--") return alert("Faça a calibração primeiro.");
+    alert(`✅ Aro ${aro} selecionado para compra!`);
 }
 
 // Inicialização
 window.onload = () => {
-    sliderCalibrar.value = 205;
-    circuloCalibrar.style.width = "205px";
-    circuloCalibrar.style.height = "205px";
+    sliderCalibrar.value = 225;
+    circuloCalibrar.style.width = "225px";
+    circuloCalibrar.style.height = "225px";
 };
