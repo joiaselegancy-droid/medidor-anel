@@ -1,27 +1,30 @@
 let pixelsPorMm = 1;
+let ultimoAro = null;
 
-// =========================
-// REFERÊNCIAS
-// =========================
-const slider = document.getElementById("slider");
+const sliderCalibrar = document.getElementById("sliderCalibrar");
+const sliderMedir = document.getElementById("sliderMedir");
+
 const circuloCalibrar = document.getElementById("circuloCalibrar");
 const circuloMedir = document.getElementById("circuloMedir");
 
 // =========================
-// ATUALIZAR TAMANHO PELO SLIDER
+// SLIDER CALIBRAÇÃO
 // =========================
-slider.addEventListener("input", function () {
-  let valor = slider.value;
+sliderCalibrar.addEventListener("input", function () {
+  let valor = this.value;
+  circuloCalibrar.style.width = valor + "px";
+  circuloCalibrar.style.height = valor + "px";
+});
 
-  // aplica no círculo ativo
-  if (document.getElementById("calibracao").classList.contains("ativa")) {
-    circuloCalibrar.style.width = valor + "px";
-    circuloCalibrar.style.height = valor + "px";
-  } else {
-    circuloMedir.style.width = valor + "px";
-    circuloMedir.style.height = valor + "px";
-    calcularResultado(valor);
-  }
+// =========================
+// SLIDER MEDIÇÃO
+// =========================
+sliderMedir.addEventListener("input", function () {
+  let valor = this.value;
+  circuloMedir.style.width = valor + "px";
+  circuloMedir.style.height = valor + "px";
+
+  calcularResultado(valor);
 });
 
 // =========================
@@ -34,20 +37,49 @@ function confirmarCalibracao() {
 
   document.getElementById("calibracao").classList.remove("ativa");
   document.getElementById("medicao").classList.add("ativa");
-
-  slider.value = 120; // reset slider
 }
 
 // =========================
-// CÁLCULO DO ARO (8 a 30)
+// CÁLCULO PRECISO (DIÂMETRO INTERNO)
 // =========================
 function calcularResultado(px) {
-  let mm = px / pixelsPorMm;
+  let borda = 6 * 2; // borda do anel (CSS)
 
-  let aro = Math.round((mm - 10) * 2);
+  let diametroInternoPx = px - borda;
+
+  let diametroMm = diametroInternoPx / pixelsPorMm;
+
+  let circ = diametroMm * Math.PI;
+
+  let aro = Math.round(circ - 40);
 
   if (aro < 8) aro = 8;
   if (aro > 30) aro = 30;
 
   document.getElementById("resultado").innerText = "Aro: " + aro;
+
+  let feedback = document.getElementById("feedback");
+
+  if (aro === ultimoAro) {
+    circuloMedir.classList.add("perfeito");
+    feedback.style.display = "block";
+
+    if (navigator.vibrate) {
+      navigator.vibrate(10);
+    }
+
+  } else {
+    circuloMedir.classList.remove("perfeito");
+    feedback.style.display = "none";
+  }
+
+  ultimoAro = aro;
+}
+
+// =========================
+// BOTÃO COMPRA
+// =========================
+function comprar() {
+  let aro = document.getElementById("resultado").innerText.replace("Aro: ", "");
+  alert("Selecionado aro " + aro);
 }
