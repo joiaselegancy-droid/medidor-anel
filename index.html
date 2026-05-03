@@ -12,46 +12,46 @@
         <p class="subtitle">Medidor Virtual de Anel</p>
     </header>
 
-    <!-- TELA 1 - CALIBRAÇÃO COM CARTÃO -->
+    <!-- TELA 1 - ALINHAMENTO DO CARTÃO -->
     <main id="calibracao" class="tela ativa">
         <div class="content">
-            <h2>Calibração com Cartão</h2>
-            <p class="instrucao">Use seu cartão de crédito como gabarito</p>
+            <h2>Passo 1 - Calibração</h2>
+            <p class="instrucao">Alinhe o cartão de crédito na tela</p>
             
             <div class="dica">
-                • Coloque o cartão de crédito <strong>na horizontal</strong> sobre a tela<br>
-                • Alinhe com a borda ou com o guia<br>
+                • Posicione o cartão na <strong>parte esquerda</strong> da tela<br>
+                • Alinhe o canto superior esquerdo e inferior esquerdo<br>
                 • Ajuste o círculo até ficar do mesmo tamanho do cartão
             </div>
 
             <div class="medidor-container">
                 <div class="area-calibracao">
+                    <div class="guia-esquerda"></div>
                     <div id="circuloCalibrar" class="circulo"></div>
-                    <div class="guia-cartao"></div>
                 </div>
-                <input type="range" id="sliderCalibrar" class="slider" min="120" max="320" value="220" step="1">
+                <input type="range" id="sliderCalibrar" class="slider" min="140" max="320" value="230" step="1">
             </div>
 
-            <button onclick="confirmarCalibracao()" class="btn-primary">Ajustado ✓ Confirmar</button>
+            <button onclick="confirmarCalibracao()" class="btn-primary">CONFIRMADO</button>
         </div>
     </main>
 
     <!-- TELA 2 - MEDIÇÃO DO ANEL -->
     <main id="medicao" class="tela">
         <div class="content">
-            <h2>Meça seu Anel</h2>
+            <h2>Passo 2 - Meça seu Anel</h2>
             <p class="instrucao">Ajuste o círculo na parte interna do anel</p>
             
             <div class="dica">
-                • Coloque o anel sobre a tela<br>
-                • Ajuste o círculo até encaixar perfeitamente na borda interna
+                • Coloque seu anel sobre a tela<br>
+                • Ajuste até a borda interna do anel encaixar perfeitamente
             </div>
 
             <div class="medidor-container">
                 <div class="area-medicao">
                     <div id="circuloMedir" class="circulo"></div>
                 </div>
-                <input type="range" id="sliderMedir" class="slider" min="80" max="300" value="160" step="1">
+                <input type="range" id="sliderMedir" class="slider" min="80" max="320" value="170" step="1">
             </div>
 
             <div class="resultado">
