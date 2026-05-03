@@ -1,98 +1,41 @@
 let pixelsPorMm = 1;
 
 // =========================
-// BLOQUEAR ZOOM (iPhone)
+// REFERÊNCIAS
 // =========================
-document.addEventListener("gesturestart", function (e) {
-  e.preventDefault();
+const slider = document.getElementById("slider");
+const circuloCalibrar = document.getElementById("circuloCalibrar");
+const circuloMedir = document.getElementById("circuloMedir");
+
+// =========================
+// ATUALIZAR TAMANHO PELO SLIDER
+// =========================
+slider.addEventListener("input", function () {
+  let valor = slider.value;
+
+  // aplica no círculo ativo
+  if (document.getElementById("calibracao").classList.contains("ativa")) {
+    circuloCalibrar.style.width = valor + "px";
+    circuloCalibrar.style.height = valor + "px";
+  } else {
+    circuloMedir.style.width = valor + "px";
+    circuloMedir.style.height = valor + "px";
+    calcularResultado(valor);
+  }
 });
-
-// =========================
-// FUNÇÃO PINCH (DOIS DEDOS)
-// =========================
-function ativarResize(id) {
-  const el = document.getElementById(id);
-
-  let distanciaInicial = 0;
-  let tamanhoInicial = 0;
-
-  el.addEventListener("touchstart", function(e) {
-    if (e.touches.length === 2) {
-      distanciaInicial = calcularDistancia(e.touches);
-      tamanhoInicial = el.offsetWidth;
-    }
-  });
-
-  el.addEventListener("touchmove", function(e) {
-    e.preventDefault();
-
-    // PINCH (2 dedos)
-    if (e.touches.length === 2) {
-      let novaDistancia = calcularDistancia(e.touches);
-
-      let escala = novaDistancia / distanciaInicial;
-      let novo = tamanhoInicial * escala;
-
-      if (novo > 50 && novo < 300) {
-        el.style.width = novo + "px";
-        el.style.height = novo + "px";
-
-        if (id === "circuloMedir") {
-          calcularResultado(novo);
-        }
-      }
-    }
-
-    // 1 dedo (fallback simples)
-    if (e.touches.length === 1) {
-      let touch = e.touches[0];
-      let area = el.parentElement.getBoundingClientRect();
-
-      let centerX = area.left + area.width / 2;
-      let centerY = area.top + area.height / 2;
-
-      let dx = touch.clientX - centerX;
-      let dy = touch.clientY - centerY;
-
-      let distancia = Math.sqrt(dx * dx + dy * dy);
-      let novo = distancia * 2;
-
-      if (novo > 50 && novo < 300) {
-        el.style.width = novo + "px";
-        el.style.height = novo + "px";
-
-        if (id === "circuloMedir") {
-          calcularResultado(novo);
-        }
-      }
-    }
-
-  }, { passive: false });
-}
-
-// =========================
-// CALCULAR DISTÂNCIA ENTRE DOIS DEDOS
-// =========================
-function calcularDistancia(touches) {
-  let dx = touches[0].clientX - touches[1].clientX;
-  let dy = touches[0].clientY - touches[1].clientY;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-// ativar
-ativarResize("circuloCalibrar");
-ativarResize("circuloMedir");
 
 // =========================
 // CALIBRAÇÃO (50 centavos = 23mm)
 // =========================
 function confirmarCalibracao() {
-  let px = document.getElementById("circuloCalibrar").offsetWidth;
+  let px = circuloCalibrar.offsetWidth;
 
   pixelsPorMm = px / 23;
 
   document.getElementById("calibracao").classList.remove("ativa");
   document.getElementById("medicao").classList.add("ativa");
+
+  slider.value = 120; // reset slider
 }
 
 // =========================
