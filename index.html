@@ -165,24 +165,24 @@ sliders.forEach(slider => {
   });
 });
 
-function confirmarCalibracao() {
-  let px = document.getElementById("circuloCalibrar").offsetWidth;
-  pixelsPorMm = px / 23;
-
-  document.getElementById("calibracao").classList.remove("ativa");
-  document.getElementById("medicao").classList.add("ativa");
-}
-
 function calcularResultado(px) {
-  let mm = px / pixelsPorMm;
+  // converte pixels para milímetros (usando calibração)
+  let diametroMm = px / pixelsPorMm;
 
-  let aro = Math.round((mm - 10) * 2);
+  // calcula circunferência real do anel
+  let circunferencia = diametroMm * Math.PI;
 
+  // converte para aro brasileiro
+  let aro = Math.round(circunferencia - 40);
+
+  // limites de segurança
   if (aro < 8) aro = 8;
   if (aro > 30) aro = 30;
 
+  // exibir resultado
   document.getElementById("resultado").innerText = "Aro: " + aro;
 }
+  
 </script>
 
 </body>
