@@ -18,23 +18,24 @@ sliderCalibrar.addEventListener("input", function () {
 function confirmarCalibracao() {
     const px = circuloCalibrar.offsetWidth;
 
-    if (px < 140) {
-        alert("❌ Ajuste o círculo maior, ele deve ficar do tamanho do cartão.");
+    if (px < 160) {
+        alert("❌ Ajuste o círculo maior. Ele deve ficar do tamanho do cartão.");
         return;
     }
 
-    pixelsPorMm = px / 85.6; // largura padrão do cartão
+    // Calibração baseada na largura do cartão (85.6 mm)
+    pixelsPorMm = px / 85.6;
 
-    // Troca de tela
+    // Troca para tela de medição do anel
     document.getElementById("calibracao").classList.remove("ativa");
     document.getElementById("medicao").classList.add("ativa");
 
-    // Sincroniza slider
-    sliderMedir.value = Math.round(px * 0.75);
+    // Ajuste inicial do círculo do anel
+    sliderMedir.value = Math.round(px * 0.78);
     atualizarMedicao();
 }
 
-// ====================== MEDIÇÃO ======================
+// ====================== MEDIÇÃO DO ANEL ======================
 sliderMedir.addEventListener("input", function () {
     atualizarMedicao();
 });
@@ -50,9 +51,11 @@ function calcularTamanhoAro(px) {
     if (pixelsPorMm === 0) return;
 
     const diametroMm = px / pixelsPorMm;
-    const circunferencia = diametroMm * Math.PI;
-    let aro = Math.round((circunferencia - 36) / 1.2);
-    aro = Math.max(8, Math.min(35, aro));
+    const circunferenciaMm = diametroMm * Math.PI;
+
+    // Cálculo mais estável para numeração brasileira (8 ao 30)
+    let aro = Math.round((circunferenciaMm - 37.5) / 1.22);
+    aro = Math.max(8, Math.min(30, aro));
 
     tamanhoAroEl.textContent = aro;
 
@@ -61,12 +64,12 @@ function calcularTamanhoAro(px) {
         feedbackEl.textContent = "✅ Encaixe perfeito!";
     } else {
         circuloMedir.classList.remove("perfeito");
-        feedbackEl.textContent = "";
+        feedbackEl.textContent = "Ajuste até encaixar perfeitamente";
     }
     ultimoAro = aro;
 }
 
-// ====================== OUTRAS FUNÇÕES ======================
+// ====================== FUNÇÕES AUXILIARES ======================
 function voltarCalibracao() {
     document.getElementById("medicao").classList.remove("ativa");
     document.getElementById("calibracao").classList.add("ativa");
@@ -75,12 +78,12 @@ function voltarCalibracao() {
 function comprar() {
     const aro = tamanhoAroEl.textContent;
     if (aro === "--") return alert("Faça a calibração primeiro.");
-    alert(`✅ Aro ${aro} selecionado para compra!`);
+    alert(`✅ Aro ${aro} selecionado!\n\nPode prosseguir com a compra.`);
 }
 
 // Inicialização
 window.onload = () => {
-    sliderCalibrar.value = 225;
-    circuloCalibrar.style.width = "225px";
-    circuloCalibrar.style.height = "225px";
+    sliderCalibrar.value = 235;
+    circuloCalibrar.style.width = "235px";
+    circuloCalibrar.style.height = "235px";
 };
