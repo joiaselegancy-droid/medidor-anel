@@ -7,63 +7,52 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
+    <header>
         <h1>Elegancy Joias</h1>
-        <p class="subtitle">Medidor Virtual de Anel</p>
     </header>
 
-    <!-- TELA 1 - ALINHAMENTO DO CARTÃO -->
-    <main id="calibracao" class="tela ativa">
-        <div class="content">
-            <h2>Passo 1 - Calibração</h2>
-            <p class="instrucao">Alinhe o cartão de crédito na tela</p>
-            
-            <div class="dica">
-                • Posicione o cartão na <strong>parte esquerda</strong> da tela<br>
-                • Alinhe o canto superior esquerdo e inferior esquerdo<br>
-                • Ajuste o círculo até ficar do mesmo tamanho do cartão
-            </div>
-
-            <div class="medidor-container">
-                <div class="area-calibracao">
-                    <div class="guia-esquerda"></div>
-                    <div id="circuloCalibrar" class="circulo"></div>
-                </div>
-                <input type="range" id="sliderCalibrar" class="slider" min="140" max="320" value="230" step="1">
-            </div>
-
-            <button onclick="confirmarCalibracao()" class="btn-primary">CONFIRMADO</button>
+    <!-- TELA DE CALIBRAÇÃO -->
+    <div id="calibracao" class="tela ativa">
+        <h2>Calibração</h2>
+        <p class="instrucao">Posicione o cartão de crédito deitado</p>
+        
+        <div class="calibracao-area">
+            <div class="borda-azul"></div>
+            <div id="circuloCalibrar" class="circulo-calibracao"></div>
         </div>
-    </main>
 
-    <!-- TELA 2 - MEDIÇÃO DO ANEL -->
-    <main id="medicao" class="tela">
-        <div class="content">
-            <h2>Passo 2 - Meça seu Anel</h2>
-            <p class="instrucao">Ajuste o círculo na parte interna do anel</p>
-            
-            <div class="dica">
-                • Coloque seu anel sobre a tela<br>
-                • Ajuste até a borda interna do anel encaixar perfeitamente
-            </div>
-
-            <div class="medidor-container">
-                <div class="area-medicao">
-                    <div id="circuloMedir" class="circulo"></div>
-                </div>
-                <input type="range" id="sliderMedir" class="slider" min="80" max="320" value="170" step="1">
-            </div>
-
-            <div class="resultado">
-                Aro: <span id="tamanhoAro">--</span>
-            </div>
-
-            <div id="feedback" class="feedback"></div>
-
-            <button onclick="comprar()" class="btn-primary">Comprar neste tamanho</button>
-            <button onclick="voltarCalibracao()" class="btn-secundario">Refazer Calibração</button>
+        <div class="controles">
+            <button onclick="ajustarCalibracao(-5)">−</button>
+            <span id="valorCalibracao">220px</span>
+            <button onclick="ajustarCalibracao(5)">+</button>
         </div>
-    </main>
+
+        <button onclick="confirmarCalibracao()" class="btn-confirmar">Bora descobrir o tamanho do aro</button>
+    </div>
+
+    <!-- TELA DE MEDIÇÃO -->
+    <div id="medicao" class="tela">
+        <h2>Descubra seu tamanho</h2>
+        <p class="instrucao">Ajuste a bola na parte interna do anel</p>
+        
+        <div class="medicao-area">
+            <div class="borda-azul-medicao"></div>
+            <div id="circuloMedir" class="circulo-medicao"></div>
+        </div>
+
+        <div class="controles">
+            <button onclick="ajustarMedicao(-5)">−</button>
+            <span id="valorMedicao">170px</span>
+            <button onclick="ajustarMedicao(5)">+</button>
+        </div>
+
+        <div class="resultado">
+            Aro: <strong id="tamanhoAro">--</strong>
+        </div>
+
+        <button onclick="comprar()" class="btn-confirmar">Quero comprar neste tamanho</button>
+        <button onclick="voltar()" class="btn-secundario">Refazer calibração</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
