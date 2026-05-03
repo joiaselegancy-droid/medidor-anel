@@ -1,48 +1,169 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Medidor de Anel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medidor de Anel - Elegancy Joias</title>
 
-  <!-- IMPORTANTE PARA iPHONE -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7f7;
+  text-align: center;
+  color: #333;
+}
 
-  <link rel="stylesheet" href="style.css">
+.header {
+  padding: 20px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 18px;
+  color: #1FB5B5;
+}
+
+.tela {
+  display: none;
+  padding: 20px;
+}
+
+.ativa {
+  display: block;
+}
+
+#area {
+  width: 280px;
+  height: 280px;
+  margin: 30px auto;
+  border: 2px dashed #ccc;
+  position: relative;
+  background: white;
+  border-radius: 12px;
+}
+
+.circulo {
+  width: 120px;
+  height: 120px;
+  border: 3px solid #1FB5B5;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  touch-action: none;
+}
+
+button {
+  background: #1FB5B5;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+h2 {
+  color: #1FB5B5;
+}
+
+#resultado {
+  font-size: 22px;
+  margin-top: 20px;
+}
+</style>
 </head>
 
 <body>
 
-<div id="app">
-
-  <!-- CALIBRAÇÃO -->
-  <div id="calibracao" class="tela ativa">
-    <h2>Calibração</h2>
-    <p>Coloque uma moeda de 1 real na tela e ajuste o círculo</p>
-
-    <div id="area">
-      <div id="circulo"></div>
-    </div>
-
-    <button onclick="confirmarCalibracao()">Confirmar</button>
-  </div>
-
-
-  <!-- MEDIÇÃO -->
-  <div id="medicao" class="tela">
-    <h2>Medir dedo / anel</h2>
-    <p>Ajuste o círculo ao tamanho do dedo</p>
-
-    <div id="area">
-      <div id="circuloMedicao"></div>
-    </div>
-
-    <h3 id="resultado">Aro: --</h3>
-  </div>
-
+<div class="header">
+  <h1>Elegancy Joias</h1>
 </div>
 
-<!-- SCRIPT SEM ERRO -->
-<script src="./script.js"></script>
+<!-- CALIBRAÇÃO -->
+<div id="calibracao" class="tela ativa">
+  <h2>Calibração</h2>
+  <p>Coloque uma moeda de 50 centavos na tela e ajuste o círculo</p>
+
+  <div id="area">
+    <div id="circuloCalibrar" class="circulo"></div>
+  </div>
+
+  <button onclick="confirmarCalibracao()">Confirmar</button>
+</div>
+
+<!-- MEDIÇÃO -->
+<div id="medicao" class="tela">
+  <h2>Descubra seu tamanho</h2>
+  <p>Ajuste o círculo ao tamanho do seu dedo</p>
+
+  <div id="area">
+    <div id="circuloMedir" class="circulo"></div>
+  </div>
+
+  <div id="resultado">Aro: --</div>
+</div>
+
+<script>
+let pixelsPorMm = 1;
+
+// toque
+function ativarResize(id) {
+  const el = document.getElementById(id);
+
+  let startX = 0;
+  let startSize = 0;
+
+  el.addEventListener("touchstart", function(e) {
+    startX = e.touches[0].clientX;
+    startSize = el.offsetWidth;
+  });
+
+  el.addEventListener("touchmove", function(e) {
+    let moveX = e.touches[0].clientX;
+    let diff = moveX - startX;
+
+    let novo = startSize + diff;
+
+    if (novo > 50 && novo < 300) {
+      el.style.width = novo + "px";
+      el.style.height = novo + "px";
+
+      if (id === "circuloMedir") {
+        calcularResultado(novo);
+      }
+    }
+  });
+}
+
+ativarResize("circuloCalibrar");
+ativarResize("circuloMedir");
+
+// calibração moeda 50 centavos (23mm)
+function confirmarCalibracao() {
+  let px = document.getElementById("circuloCalibrar").offsetWidth;
+  pixelsPorMm = px / 23;
+
+  document.getElementById("calibracao").classList.remove("ativa");
+  document.getElementById("medicao").classList.add("ativa");
+}
+
+// cálculo aro
+function calcularResultado(px) {
+  let mm = px / pixelsPorMm;
+
+  let aro = Math.round((mm - 10) * 2);
+
+  if (aro < 8) aro = 8;
+  if (aro > 30) aro = 30;
+
+  document.getElementById("resultado").innerText = "Aro: " + aro;
+}
+</script>
 
 </body>
 </html>
