@@ -34,18 +34,21 @@ body {
   display: block;
 }
 
-/* ÁREA CENTRAL */
+/* CONTAINER CENTRAL */
+.container {
+  position: relative;
+  width: 280px;
+  margin: 30px auto;
+}
+
+/* ÁREA DO CÍRCULO */
 #area {
   width: 280px;
   height: 280px;
-  margin: 30px auto;
   border: 2px dashed #ccc;
   border-radius: 12px;
   position: relative;
   background: white;
-
-  /* espaço extra pro slider */
-  margin-right: 100px;
 }
 
 /* CÍRCULO */
@@ -60,10 +63,10 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* SLIDER MELHORADO */
+/* SLIDER AGORA FORA DO CENTRO */
 #slider {
   position: absolute;
-  right: -110px; /* MAIS LONGE */
+  right: -80px; /* afastado SEM mover o centro */
   top: 50%;
   transform: rotate(270deg) translateY(-50%);
   width: 260px;
@@ -76,7 +79,7 @@ body {
   border-radius: 10px;
 }
 
-/* botão (thumb) */
+/* bolinha */
 #slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 26px;
@@ -115,8 +118,10 @@ button {
   <h2>Calibração</h2>
   <p>Coloque uma moeda de 50 centavos e ajuste o círculo</p>
 
-  <div id="area">
-    <div id="circuloCalibrar" class="circulo"></div>
+  <div class="container">
+    <div id="area">
+      <div id="circuloCalibrar" class="circulo"></div>
+    </div>
     <input type="range" id="slider" min="50" max="300" value="120">
   </div>
 
@@ -128,8 +133,10 @@ button {
   <h2>Descubra seu tamanho</h2>
   <p>Ajuste o círculo ao tamanho do dedo</p>
 
-  <div id="area">
-    <div id="circuloMedir" class="circulo"></div>
+  <div class="container">
+    <div id="area">
+      <div id="circuloMedir" class="circulo"></div>
+    </div>
     <input type="range" id="slider" min="50" max="300" value="120">
   </div>
 
@@ -139,7 +146,6 @@ button {
 <script>
 let pixelsPorMm = 1;
 
-// pegar todos sliders (tem 2)
 const sliders = document.querySelectorAll("#slider");
 
 sliders.forEach(slider => {
@@ -159,17 +165,14 @@ sliders.forEach(slider => {
   });
 });
 
-// calibração (50 centavos = 23mm)
 function confirmarCalibracao() {
   let px = document.getElementById("circuloCalibrar").offsetWidth;
-
   pixelsPorMm = px / 23;
 
   document.getElementById("calibracao").classList.remove("ativa");
   document.getElementById("medicao").classList.add("ativa");
 }
 
-// cálculo aro
 function calcularResultado(px) {
   let mm = px / pixelsPorMm;
 
