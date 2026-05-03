@@ -1,70 +1,132 @@
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: Arial, sans-serif; background:#f5f7f7; text-align:center; padding:20px; }
+/* ==================== MEDIDOR DE ANEL - ELEGANCY JOIAS ==================== */
 
-header h1 { color:#1FB5B5; font-size:2rem; margin-bottom:20px; }
-
-.tela { display:none; }
-.tela.ativa { display:block; }
-
-.area {
-    width: 280px;
-    height: 280px;
-    margin: 20px auto;
-    position: relative;
-    background: #e8f5e9;
-    border-radius: 20px;
-    overflow: hidden;
+.medidor-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.borda-azul {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
-    border: 4px solid #1e88e5;
-    border-radius: 12px;
-    z-index: 1;
+.medidor-titulo {
+    color: #00B2A9;
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 8px;
 }
 
-.circulo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 6px solid #4caf50;
-    background: rgba(76,175,80,0.15);
-    z-index: 2;
-    transition: all 0.1s;
+.medidor-subtitulo {
+    text-align: center;
+    color: #555;
+    font-size: 17px;
+    margin-bottom: 35px;
 }
 
-.circulo.rosa { border-color: #e91e63; }
+.medidor-secao {
+    margin-bottom: 35px;
+}
 
-.controles button {
-    font-size: 2rem;
-    width: 60px;
-    height: 60px;
-    background: #1FB5B5;
+.medidor-secao h3 {
+    color: #333;
+    font-size: 20px;
+    margin: 0 0 12px 0;
+}
+
+.medidor-input-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.medidor-input {
+    padding: 14px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    width: 180px;
+    font-size: 16px;
+    outline: none;
+}
+
+.medidor-input:focus {
+    border-color: #00B2A9;
+}
+
+.medidor-btn {
+    background: #00B2A9;
     color: white;
     border: none;
-    border-radius: 50%;
-    margin: 0 15px;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-.resultado {
-    font-size: 2.5rem;
-    margin: 20px 0;
-    color: #1FB5B5;
+.medidor-btn:hover {
+    background: #008f8a;
+    transform: translateY(-2px);
 }
 
-.btn, .btn-sec {
-    padding: 15px 30px;
-    margin: 10px;
-    border: none;
-    border-radius: 30px;
-    font-size: 1.1rem;
+.medidor-resultado {
+    display: none;
+    margin: 30px 0;
+    padding: 30px;
+    background: #f0f9f8;
+    border: 3px solid #00B2A9;
+    border-radius: 12px;
+    text-align: center;
 }
 
-.btn { background:#1FB5B5; color:white; }
-.btn-sec { background:#ddd; }
+.medidor-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+.medidor-tabela th {
+    background: #00B2A9;
+    color: white;
+    padding: 16px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.medidor-tabela td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 16px;
+}
+
+.medidor-tabela tr:last-child td {
+    border-bottom: none;
+}
+
+.medidor-dica {
+    text-align: center;
+    color: #666;
+    font-size: 14.5px;
+    margin-top: 25px;
+    font-style: italic;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .medidor-container {
+        padding: 25px 15px;
+        margin: 20px auto;
+    }
+    
+    .medidor-input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .medidor-input {
+        width: 100%;
+    }
+}
