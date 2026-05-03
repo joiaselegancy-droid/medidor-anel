@@ -9,13 +9,12 @@ body {
     background: linear-gradient(135deg, #f8f9fa, #e8f0f0);
     color: #333;
     min-height: 100vh;
-    padding-bottom: 30px;
 }
 
 .header {
     padding: 20px 15px;
     background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     text-align: center;
 }
 
@@ -40,15 +39,9 @@ body {
 
 .tela.ativa {
     display: block;
-    animation: fadeIn 0.4s ease;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Container do medidor */
+/* Container */
 .medidor-container {
     position: relative;
     max-width: 300px;
@@ -61,10 +54,10 @@ body {
     width: 280px;
     height: 280px;
     margin: 0 auto;
-    border: 3px dashed #ddd;
+    border: 3px dashed #ccc;
     border-radius: 20px;
     background: white;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     position: relative;
     overflow: hidden;
 }
@@ -87,98 +80,38 @@ body {
 .perfeito {
     background: rgba(0, 200, 83, 0.15);
     border-color: #00c853;
-    box-shadow: 0 0 0 10px rgba(0, 200, 83, 0.25);
+    box-shadow: 0 0 0 12px rgba(0, 200, 83, 0.25);
 }
 
-/* Guia do cartão horizontal */
-.guia-cartao-horizontal {
+/* Guia do cartão */
+.guia-cartao {
     position: absolute;
-    top: 50%;
+    bottom: 40px;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 185px;
-    height: 88px;
-    border: 2.5px solid #ff9800;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 95px;
+    border: 3px solid #ff9800;
     border-radius: 12px;
-    opacity: 0.35;
+    opacity: 0.4;
     pointer-events: none;
-    box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.2);
 }
 
 /* Slider */
 .slider {
     width: 260px;
-    margin: 35px auto 10px;
+    margin: 40px auto 15px;
     accent-color: #1FB5B5;
 }
 
 /* Resultado */
 .resultado {
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     font-weight: 700;
     color: #1FB5B5;
     text-align: center;
-    margin: 25px 0 8px;
+    margin: 25px 0 10px;
 }
 
 .resultado span {
-    font-size: 2.6rem;
-    color: #00c853;
-}
-
-/* Feedback */
-.feedback {
-    text-align: center;
-    min-height: 32px;
-    font-weight: 600;
-    margin: 10px 0;
-}
-
-/* Botões */
-.btn-primary {
-    background: #1FB5B5;
-    color: white;
-    border: none;
-    padding: 16px 32px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    width: 100%;
-    max-width: 320px;
-    margin: 15px auto;
-    display: block;
-    box-shadow: 0 6px 20px rgba(31, 181, 181, 0.3);
-}
-
-.btn-secundario {
-    background: transparent;
-    color: #666;
-    border: 2px solid #ccc;
-    padding: 14px 28px;
-    border-radius: 50px;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 320px;
-    margin: 8px auto;
-    display: block;
-}
-
-/* Dicas */
-.dica {
-    background: #f8f1e3;
-    color: #8d6e3f;
-    padding: 16px;
-    border-radius: 16px;
-    margin: 20px auto;
-    max-width: 300px;
-    font-size: 0.96rem;
-    line-height: 1.55;
-    border-left: 5px solid #1FB5B5;
-}
-
-@media (max-width: 360px) {
-    .area-calibracao, .area-medicao {
-        width: 240px;
-        height: 240px;
-    }
-}
+    color:
