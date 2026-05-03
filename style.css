@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  text-align: center;
+}
+
+.tela {
+  display: none;
+  padding: 20px;
+}
+
+.tela.ativa {
+  display: block;
+}
+
+#area {
+  margin: 30px auto;
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #555;
+  position: relative;
+}
+
+#circulo, #circuloMedicao {
+  width: 100px;
+  height: 100px;
+  border: 3px solid gold;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  touch-action: none;
+}
+
+button {
+  padding: 15px 25px;
+  font-size: 16px;
+  background: gold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Medidor de Anel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- Tela de calibração -->
+    <div id="calibracao" class="tela ativa">
+      <h2>Calibração</h2>
+      <p>Coloque uma moeda de 1 real na tela e ajuste o círculo</p>
+
+      <div id="area">
+        <div id="circulo"></div>
+      </div>
+
+      <button onclick="confirmarCalibracao()">Confirmar</button>
