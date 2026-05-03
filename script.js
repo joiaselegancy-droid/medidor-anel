@@ -7,7 +7,7 @@ const sliderMedir = document.getElementById("sliderMedir");
 const circuloCalibrar = document.getElementById("circuloCalibrar");
 const circuloMedir = document.getElementById("circuloMedir");
 
-// CALIBRAÇÃO (MEIO CARTÃO = 42.8 mm)
+// CALIBRAÇÃO (53,98 mm - lado menor do cartão)
 sliderCalibrar.addEventListener("input", function () {
   let valor = this.value;
 
@@ -18,7 +18,7 @@ sliderCalibrar.addEventListener("input", function () {
 function confirmarCalibracao() {
   let px = circuloCalibrar.offsetWidth;
 
-  pixelsPorMm = px / 42.8;
+  pixelsPorMm = px / 53.98;
 
   document.getElementById("calibracao").classList.remove("ativa");
   document.getElementById("medicao").classList.add("ativa");
@@ -54,7 +54,6 @@ function calcularResultado(px) {
     feedback.style.display = "block";
 
     if (navigator.vibrate) navigator.vibrate(10);
-
   } else {
     circuloMedir.classList.remove("perfeito");
     feedback.style.display = "none";
