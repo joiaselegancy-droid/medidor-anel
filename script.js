@@ -1,76 +1,118 @@
-// ====================== JS - MEDIDOR DE ANEL ELEGANCY JOIAS ======================
+let pixelsPorMm = 0;
+let ultimoAro = null;
 
-document.addEventListener("DOMContentLoaded", function() {
+const sliderCalibrar = document.getElementById("sliderCalibrar");
+const sliderMedir = document.getElementById("sliderMedir");
+const circuloCalibrar = document.getElementById("circuloCalibrar");
+const circuloMedir = document.getElementById("circuloMedir");
+const tamanhoAroEl = document.getElementById("tamanhoAro");
+const feedbackEl = document.getElementById("feedback");
 
-    // Tabela de tamanhos (do 8 ao 30)
-    const tamanhos = [
-        {br: 8,  diam: 15.3, circ: 48},
-        {br: 9,  diam: 15.6, circ: 49},
-        {br: 10, diam: 15.9, circ: 50},
-        {br: 11, diam: 16.2, circ: 51},
-        {br: 12, diam: 16.5, circ: 52},
-        {br: 13, diam: 16.8, circ: 53},
-        {br: 14, diam: 17.2, circ: 54},
-        {br: 15, diam: 17.5, circ: 55},
-        {br: 16, diam: 17.8, circ: 56},
-        {br: 17, diam: 18.1, circ: 57},
-        {br: 18, diam: 18.5, circ: 58},
-        {br: 19, diam: 18.8, circ: 59},
-        {br: 20, diam: 19.1, circ: 60},
-        {br: 21, diam: 19.4, circ: 61},
-        {br: 22, diam: 19.7, circ: 62},
-        {br: 23, diam: 20.0, circ: 63},
-        {br: 24, diam: 20.4, circ: 64},
-        {br: 25, diam: 20.7, circ: 65},
-        {br: 26, diam: 21.0, circ: 66},
-        {br: 27, diam: 21.3, circ: 67},
-        {br: 28, diam: 21.7, circ: 68},
-        {br: 29, diam: 22.0, circ: 69},
-        {br: 30, diam: 22.3, circ: 70}
-    ];
+// ====================== CALIBRAÇÃO ======================
+sliderCalibrar.addEventListener("input", function () {
+    const valor = this.value;
+    circuloCalibrar.style.width = valor + "px";
+    circuloCalibrar.style.height = valor + "px";
+});
 
-    // Gerar tabela
-    function gerarTabela() {
-        const tbody = document.getElementById('tabela');
-        if (!tbody) return;
+function confirmarCalibracao() {
+    const px = circuloCalibrar.offsetWidth;
+    
+    if (px < 100) {
+        alert("❌ Ajuste o círculo maior. Ele deve encostar nas bordas do cartão.");
+        return;
+    }
+
+    // Lado menor do cartão de crédito = 53.98 mm
+    pixelsPorMm = px / 53.98;
+
+    // Troca de tela com animação
+    document.getElementById("calibracao").classList.remove("ativa");
+    document.getElementById("medicao").classList.add("ativa");
+
+    // Sincroniza o slider de medição com o da calibração
+    sliderMedir.value = sliderCalibrar.value;
+    atualizarMedicao();
+}
+
+// ====================== MEDIÇÃO ======================
+sliderMedir.addEventListener("input", function () {
+    atualizarMedicao();
+});
+
+function atualizarMedicao() {
+    const valor = parseInt(sliderMedir.value);
+    
+    circuloMedir.style.width = valor + "px";
+    circuloMedir.style.height = valor + "px";
+
+    calcularTamanhoAro(valor);
+}
+
+// Cálculo mais preciso do tamanho de anel brasileiro
+function calcularTamanhoAro(px) {
+    if (pixelsPorMm === 0) return;
+
+    const diametroInternoMm = px / pixelsPorMm;
+    const circunferenciaMm = diametroInternoMm * Math.PI;
+
+    // Fórmula aproximada para numeração brasileira (ARO)
+    // Baseado na circunferência interna
+    let aro = Math.round((circunferenciaMm - 36.5) / 1.2);
+
+    // Limites realistas
+    aro = Math.max(8, Math.min(35, aro));
+
+    // Atualiza resultado
+    tamanhoAroEl.textContent = aro;
+
+    // Feedback visual
+    const diferenca = Math.abs(aro - (ultimoAro || aro));
+    
+    if (diferenca === 0 && aro === ultimoAro) {
+        circuloMedir.classList.add("perfeito");
+        feedbackEl.innerHTML = "✅ Encaixe perfeito!";
+        feedbackEl.style.color = "#00c853";
         
-        let html = '';
-        tamanhos.forEach(t => {
-            html += `
-                <tr>
-                    <td><strong>${t.br}</strong></td>
-                    <td>${t.diam}</td>
-                    <td>${t.circ}</td>
-                </tr>
-            `;
-        });
-        tbody.innerHTML = html;
+        if (navigator.vibrate) navigator.vibrate([15, 10, 15]);
+    } else {
+        circuloMedir.classList.remove("perfeito");
+        feedbackEl.innerHTML = "Ajuste até encaixar perfeitamente";
+        feedbackEl.style.color = "#666";
     }
 
-    // Encontrar tamanho mais próximo
-    function encontrarTamanho(diametro) {
-        let melhor = tamanhos[0];
-        let menorDiferenca = Math.abs(tamanhos[0].diam - diametro);
+    ultimoAro = aro;
+}
 
-        tamanhos.forEach(t => {
-            const diferenca = Math.abs(t.diam - diametro);
-            if (diferenca < menorDiferenca) {
-                menorDiferenca = diferenca;
-                melhor = t;
-            }
-        });
-        return melhor;
+// ====================== OUTRAS FUNÇÕES ======================
+function voltarCalibracao() {
+    document.getElementById("medicao").classList.remove("ativa");
+    document.getElementById("calibracao").classList.add("ativa");
+}
+
+function comprar() {
+    const aro = tamanhoAroEl.textContent;
+    
+    if (aro === "--" || pixelsPorMm === 0) {
+        alert("❌ Primeiro faça a calibração e ajuste o anel.");
+        return;
     }
 
-    // Mostrar resultado
-    window.mostrarResultado = function(diametro, tamanhoBR, circunferencia) {
-        const resultado = document.getElementById('resultado');
-        if (!resultado) return;
+    const confirmacao = confirm(`Deseja comprar um anel no tamanho Aro ${aro}?`);
+    if (confirmacao) {
+        alert(`✅ Pedido de Aro ${aro} registrado!\n\nEm uma loja real, isso abriria o carrinho.`);
+        // Aqui você pode integrar com WhatsApp, loja, etc.
+    }
+}
 
-        resultado.innerHTML = `
-            <h2 style="color: #00B2A9; margin: 0 0 15px 0;">
-                Seu tamanho recomendado é <strong>${tamanhoBR}</strong>
-            </h2>
-            <p style="font-size: 17px; margin: 12px 0;">
-                <strong>Diâmetro:</strong> ${diametro} mm &nbsp;&nbsp; | &nbsp;&nbsp; 
-                <strong>Circunferência:</strong> ${circunferencia}
+// Inicialização
+window.onload = function() {
+    // Define valores iniciais mais agradáveis
+    sliderCalibrar.value = 180;
+    circuloCalibrar.style.width = "180px";
+    circuloCalibrar.style.height = "180px";
+    
+    sliderMedir.value = 160;
+    circuloMedir.style.width = "160px";
+    circuloMedir.style.height = "160px";
+};
