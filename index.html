@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Medidor de Anel - Elegancy Joias</title>
-
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Medidor de Anel • Elegancy Joias</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <header class="header">
+        <h1>Elegancy Joias</h1>
+        <p class="subtitle">Medidor Virtual de Anel</p>
+    </header>
 
-<div class="header">
-  <h1>Elegancy Joias</h1>
-</div>
+    <!-- TELA DE CALIBRAÇÃO -->
+    <main id="calibracao" class="tela ativa">
+        <div class="content">
+            <h2>Calibração</h2>
+            <p class="instrucao">Use a largura menor de um cartão de crédito</p>
+            
+            <div class="dica">
+                <strong>Como calibrar:</strong><br>
+                • Posicione o cartão <strong>na vertical</strong> na tela<br>
+                • Ajuste o círculo até encostar exatamente nas bordas
+            </div>
 
-<!-- CALIBRAÇÃO -->
-<div id="calibracao" class="tela ativa">
-  <h2>Calibração</h2>
+            <div class="medidor-container">
+                <div class="area-calibracao">
+                    <div id="circuloCalibrar" class="circulo"></div>
+                </div>
+                <input type="range" id="sliderCalibrar" class="slider" min="80" max="320" value="140" step="1">
+            </div>
 
-  <p>Use a largura de um cartão de crédito (lado menor)</p>
+            <button onclick="confirmarCalibracao()" class="btn-primary">Confirmar Calibração</button>
+        </div>
+    </main>
 
-  <div class="dica">
-    ✔ Coloque o cartão na vertical na tela<br>
-    ✔ Ajuste o círculo até encostar exatamente nas bordas<br>
-    ❌ Não deixar folga ou ultrapassar
-  </div>
+    <!-- TELA DE MEDIÇÃO -->
+    <main id="medicao" class="tela">
+        <div class="content">
+            <h2>Qual seu tamanho?</h2>
+            <p class="instrucao">Ajuste o círculo na <strong>parte interna</strong> do anel</p>
+            
+            <div class="dica">
+                • Encoste o círculo na borda <strong>interna</strong> do anel<br>
+                • Ajuste até ficar bem encaixado sem folga
+            </div>
 
-  <div class="container">
-    <div class="area">
-      <div id="circuloCalibrar" class="circulo"></div>
-    </div>
+            <div class="medidor-container">
+                <div class="area-medicao">
+                    <div id="circuloMedir" class="circulo"></div>
+                </div>
+                <input type="range" id="sliderMedir" class="slider" min="80" max="320" value="140" step="1">
+            </div>
 
-    <input type="range" id="sliderCalibrar" class="slider" min="50" max="300" value="120">
-  </div>
+            <div class="resultado">
+                <strong>Aro:</strong> <span id="tamanhoAro">--</span>
+            </div>
 
-  <button onclick="confirmarCalibracao()">Confirmar</button>
-</div>
+            <div id="feedback" class="feedback"></div>
 
-<!-- MEDIÇÃO -->
-<div id="medicao" class="tela">
-  <h2>Descubra seu tamanho</h2>
+            <button onclick="comprar()" class="btn-primary">Quero comprar neste tamanho</button>
+            <button onclick="voltarCalibracao()" class="btn-secundario">Refazer calibração</button>
+        </div>
+    </main>
 
-  <p>Ajuste o círculo ao anel</p>
-
-  <div class="dica">
-    ✔ Encoste a borda do círculo na parte <b>INTERNA</b> do anel<br>
-    ❌ Não use a borda externa do anel<br>
-    ✔ Ajuste até encaixar perfeitamente
-  </div>
-
-  <div class="container">
-    <div class="area">
-      <div id="circuloMedir" class="circulo"></div>
-    </div>
-
-    <input type="range" id="sliderMedir" class="slider" min="50" max="300" value="120">
-  </div>
-
-  <div id="resultado">Aro: --</div>
-  <div id="feedback">✔ Encaixe perfeito</div>
-
-  <button onclick="comprar()">Comprar com esse tamanho</button>
-</div>
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
