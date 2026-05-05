@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medidor de Anel - Elegancy Joias</title>
+<title>Medidor Premium - Elegancy</title>
 
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
@@ -11,48 +11,61 @@
 
 <body>
 
-<h2>Descubra seu tamanho</h2>
+<div class="topo">
+  <h1>Elegancy Joias</h1>
+</div>
 
-<p class="sub">
-Mais de 1.000 clientes já descobriram seu tamanho com precisão
-</p>
+<h2>Descubra seu tamanho</h2>
+<p class="sub">Ajuste com precisão e compre com segurança</p>
 
 <!-- CALIBRAÇÃO -->
-<div id="calibracao">
+<div id="calibracao" class="tela">
 
-  <p>Use uma moeda de 50 centavos</p>
+  <p class="dica">Use uma moeda de 50 centavos</p>
 
-  <div class="area">
-    <div id="circuloCalibrar" class="circulo"></div>
+  <div class="container">
+    <div class="area">
+      <div id="circuloCalibrar" class="circulo"></div>
+    </div>
+
+    <input type="range" id="sliderCalibrar" class="slider">
   </div>
 
-  <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
-
-  <br><br>
   <button onclick="confirmarCalibracao()">Confirmar calibração</button>
 </div>
 
 <!-- MEDIÇÃO -->
-<div id="medicao" style="display:none;">
+<div id="medicao" class="tela" style="display:none;">
 
-  <h3>Agora ajuste no seu anel</h3>
+  <p class="dica">
+    ✔ Ajuste na parte interna do anel
+  </p>
 
-  <div class="area">
-    <div id="circuloMedir" class="circulo"></div>
+  <div class="container">
+    <div class="area">
+      <div id="circuloMedir" class="circulo"></div>
+    </div>
+
+    <input type="range" id="sliderMedir" class="slider">
   </div>
 
-  <input type="range" id="sliderMedir" min="60" max="260" value="120">
+  <div id="resultado">Aro: --</div>
 
-  <h2 id="resultado">Aro: --</h2>
+  <input type="checkbox" id="confirmacao">
+  <label>Confirme a medida</label>
 
-  <label>
-    <input type="checkbox" id="confirmacao">
-    Confirmo que conferi a medida corretamente
-  </label>
+  <button onclick="confirmarMedida()">Comprar com meu tamanho</button>
 
-  <br><br>
+</div>
 
-  <button onclick="confirmarMedida()">Confirmar e comprar</button>
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <h2>🎉 Perfeito!</h2>
+    <p id="modalAro"></p>
+    <p>Use seu tamanho com segurança</p>
+    <button onclick="fecharModal()">Continuar</button>
+  </div>
 </div>
 
 </body>
