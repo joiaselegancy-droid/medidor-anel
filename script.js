@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let pixelsPorMm = localStorage.getItem("ppm");
 
+  // 🔊 SOM SUAVE
+  const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-soft-click-1118.mp3");
+
   if (pixelsPorMm) {
     calibracao.style.display = "none";
     medicao.style.display = "block";
@@ -49,12 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
     let circ = diametro * Math.PI;
 
     let aro = Math.round(circ - 40);
-
     aro = Math.max(8, Math.min(30, aro));
 
     resultado.innerText = "Aro: " + aro;
 
-    if (navigator.vibrate) navigator.vibrate(10);
+    // 🎯 FEEDBACK VISUAL
+    circuloMedir.classList.add("encaixe");
+
+    // 📳 VIBRAÇÃO
+    if (navigator.vibrate) navigator.vibrate(8);
+
+    // 🔊 SOM (não spammar)
+    if (!audio.paused) return;
+    audio.currentTime = 0;
+    audio.play();
   };
 
   // CONFIRMAR
@@ -66,6 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modalAro.innerText = resultado.innerText;
     modal.style.display = "flex";
+
+    // 📳 vibração sucesso
+    if (navigator.vibrate) navigator.vibrate([10, 30, 10]);
   };
 
   // COPIAR CUPOM
