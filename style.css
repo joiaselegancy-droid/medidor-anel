@@ -5,9 +5,13 @@ body {
   padding-bottom: 60px;
 }
 
+/* LOGO */
+.header {
+  padding: 10px;
+}
+
 .logo {
   max-width: 110px;
-  margin: 10px auto;
 }
 
 /* ÁREA */
@@ -31,7 +35,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* BOTÃO */
+/* BOTÕES */
 button {
   padding: 12px 20px;
   border: none;
@@ -41,7 +45,7 @@ button {
   margin-top: 10px;
 }
 
-/* ESCONDER MEDIÇÃO NO INÍCIO */
+/* ESCONDE MEDIÇÃO */
 #medicao {
   display: none;
 }
