@@ -1,5 +1,31 @@
+const slider = document.getElementById("sliderMedir");
+const circulo = document.getElementById("circuloMedir");
+const resultado = document.getElementById("resultado");
+
+const modal = document.getElementById("modal");
+const modalAro = document.getElementById("modalAro");
+const btnWhats = document.getElementById("btnWhats");
+const btnCopiar = document.getElementById("btnCopiar");
+
+let pixelsPorMm = 5; // valor fixo simples (evita erro)
+
+// SLIDER
+slider.oninput = () => {
+  let v = slider.value;
+  circulo.style.width = v + "px";
+  circulo.style.height = v + "px";
+
+  let diametro = v / pixelsPorMm;
+  let aro = Math.round((diametro * Math.PI) - 40);
+
+  resultado.innerText = "Aro: " + aro;
+};
+
+// CONFIRMAR
 function confirmarMedida() {
-  if (!confirmacao.checked) {
+  let check = document.getElementById("confirmacao");
+
+  if (!check.checked) {
     alert("Confirme a medida.");
     return;
   }
@@ -8,26 +34,20 @@ function confirmarMedida() {
 
   modalAro.innerText = aro;
 
-  // WHATSAPP DINÂMICO
-  let numero = "5517991611311";
-  let mensagem = encodeURIComponent("Meu tamanho é " + aro);
-  btnWhats.href = `https://wa.me/${numero}?text=${mensagem}`;
+  // WhatsApp dinâmico
+  let msg = encodeURIComponent("Meu tamanho é " + aro);
+  btnWhats.href = `https://wa.me/5517991611311?text=${msg}`;
 
   modal.style.display = "flex";
-  setTimeout(() => modal.classList.add("ativo"), 10);
 }
 
-// COPIAR COM FEEDBACK PREMIUM
-function copiarCupom() {
+// COPIAR
+btnCopiar.onclick = () => {
   navigator.clipboard.writeText("MEDIDACERTA");
+  btnCopiar.innerText = "Copiado!";
+};
 
-  btnCopiar.innerText = "Copiado ✓";
-
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
-  }
-
-  setTimeout(() => {
-    btnCopiar.innerText = "Copiar";
-  }, 2000);
+// FECHAR
+function fecharModal() {
+  modal.style.display = "none";
 }
