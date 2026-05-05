@@ -93,3 +93,19 @@ footer {
   font-size: 12px;
   border-top: 1px solid #ddd;
 }
+/* 🎯 FEEDBACK ENCAIXE */
+.encaixe {
+  box-shadow: 0 0 20px #00c853;
+  transition: 0.2s;
+}
+
+/* ✨ ANIMAÇÃO BOUNCE (iPhone feel) */
+.modal-box {
+  animation: bounce 0.4s ease;
+}
+
+@keyframes bounce {
+  0% { transform: scale(0.7); }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
