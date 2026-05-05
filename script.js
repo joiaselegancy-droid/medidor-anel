@@ -1,95 +1,67 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7f7;
-  text-align: center;
-  color: #333;
+let pixelsPorMm = localStorage.getItem("ppm") || 1;
+let ultimoAro = null;
+
+const sliderCalibrar = document.getElementById("sliderCalibrar");
+const sliderMedir = document.getElementById("sliderMedir");
+
+const circuloCalibrar = document.getElementById("circuloCalibrar");
+const circuloMedir = document.getElementById("circuloMedir");
+
+// CALIBRAÇÃO (50 centavos = 23 mm)
+sliderCalibrar.oninput = () => {
+  let v = sliderCalibrar.value;
+  circuloCalibrar.style.width = v + "px";
+  circuloCalibrar.style.height = v + "px";
+};
+
+function confirmarCalibracao() {
+  let px = circuloCalibrar.offsetWidth;
+
+  pixelsPorMm = px / 23;
+
+  localStorage.setItem("ppm", pixelsPorMm);
+
+  document.getElementById("calibracao").classList.remove("ativa");
+  document.getElementById("medicao").classList.add("ativa");
 }
 
-.header {
-  padding: 20px;
-  background: #fff;
+// MEDIÇÃO
+sliderMedir.oninput = () => {
+  let v = sliderMedir.value;
+
+  circuloMedir.style.width = v + "px";
+  circuloMedir.style.height = v + "px";
+
+  calcular(v);
+};
+
+// CÁLCULO
+function calcular(px) {
+  let diametro = px / pixelsPorMm;
+
+  let aro = Math.round((diametro * Math.PI) - 40);
+
+  aro = Math.max(8, Math.min(30, aro));
+
+  document.getElementById("resultado").innerText = "Aro: " + aro;
+
+  let feedback = document.getElementById("feedback");
+
+  if (aro === ultimoAro) {
+    circuloMedir.classList.add("perfeito");
+    feedback.style.display = "block";
+
+    if (navigator.vibrate) navigator.vibrate(10);
+  } else {
+    circuloMedir.classList.remove("perfeito");
+    feedback.style.display = "none";
+  }
+
+  ultimoAro = aro;
 }
 
-.header h1 {
-  margin: 0;
-  color: #1FB5B5;
-}
-
-.tela { display: none; padding: 20px; }
-.tela.ativa { display: block; }
-
-.container {
-  position: relative;
-  width: 260px;
-  margin: 25px auto;
-}
-
-.area {
-  width: 260px;
-  height: 260px;
-  border: 2px dashed #ccc;
-  border-radius: 12px;
-  position: relative;
-  background: #fff;
-}
-
-/* DISCO */
-.circulo {
-  width: 120px;
-  height: 120px;
-  background: #1FB5B5;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: 0.1s;
-}
-
-/* FEEDBACK */
-.perfeito {
-  background: #00c853;
-  box-shadow: 0 0 20px #00c853;
-}
-
-/* SLIDER */
-.slider {
-  position: absolute;
-  right: -70px;
-  top: 50%;
-  transform: rotate(270deg);
-  width: 220px;
-}
-
-/* BOTÃO */
-button {
-  background: #1FB5B5;
-  color: white;
-  border: none;
-  padding: 14px 22px;
-  border-radius: 25px;
-  margin-top: 20px;
-  font-size: 16px;
-}
-
-#resultado {
-  font-size: 26px;
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-#feedback {
-  color: #00c853;
-  font-weight: bold;
-  display: none;
-}
-
-.dica {
-  background: #fff3cd;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  margin: 10px auto;
-  max-width: 240px;
+// COMPRA
+function comprar() {
+  let aro = document.getElementById("resultado").innerText.replace("Aro: ", "");
+  window.location.href = "https://www.elegancyjoias.com.br/busca?aro=" + aro;
 }
