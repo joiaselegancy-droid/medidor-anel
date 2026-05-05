@@ -6,6 +6,7 @@ body {
   color: #333;
 }
 
+/* HEADER */
 .header {
   padding: 20px;
   background: #fff;
@@ -14,11 +15,23 @@ body {
 .header h1 {
   margin: 0;
   color: #1FB5B5;
+  font-size: 22px;
 }
 
+/* TELAS */
 .tela { display: none; padding: 20px; }
 .tela.ativa { display: block; }
 
+/* TEXTOS */
+h2 {
+  font-size: 22px;
+}
+
+p {
+  font-size: 16px;
+}
+
+/* CONTAINER */
 .container {
   position: relative;
   width: 260px;
@@ -67,29 +80,41 @@ button {
   background: #1FB5B5;
   color: white;
   border: none;
-  padding: 14px 22px;
+  padding: 16px 26px;
   border-radius: 25px;
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
+/* RESULTADO */
 #resultado {
-  font-size: 26px;
+  font-size: 30px;
   margin-top: 15px;
   font-weight: bold;
 }
 
+/* FEEDBACK TEXTO */
 #feedback {
   color: #00c853;
   font-weight: bold;
   display: none;
+  font-size: 18px;
 }
 
+/* DICA */
 .dica {
   background: #fff3cd;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  margin: 10px auto;
-  max-width: 240px;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  margin: 12px auto;
+  max-width: 260px;
+}
+
+/* RODAPÉ */
+footer {
+  margin-top: 30px;
+  padding: 15px;
+  font-size: 14px;
+  color: #888;
 }
