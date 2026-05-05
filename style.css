@@ -1,19 +1,24 @@
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #f5f7f7;
   text-align: center;
-  padding-bottom: 60px; /* espaço para rodapé fixo */
+  padding-bottom: 60px;
 }
 
 /* HEADER */
 .header {
-  padding: 15px;
+  padding: 20px 10px;
   background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .logo {
   max-width: 180px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 /* TELAS */
@@ -75,6 +80,7 @@ button {
   padding: 16px 26px;
   border-radius: 25px;
   font-size: 18px;
+  margin-top: 20px;
 }
 
 /* RESULTADO */
@@ -87,6 +93,7 @@ button {
 #feedback {
   color: #00c853;
   display: none;
+  font-size: 18px;
 }
 
 /* DICA */
@@ -96,6 +103,20 @@ button {
   border-radius: 10px;
   margin: 10px auto;
   max-width: 260px;
+}
+
+/* CHECKBOX */
+.termos {
+  margin-top: 20px;
+  text-align: left;
+  max-width: 260px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+}
+
+.termos input {
+  margin-right: 8px;
 }
 
 /* RODAPÉ FIXO */
