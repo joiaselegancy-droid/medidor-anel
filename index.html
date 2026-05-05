@@ -14,18 +14,16 @@
   <h1>Elegancy Joias</h1>
 </div>
 
-<!-- =========================
-     CALIBRAÇÃO
-========================= -->
+<!-- CALIBRAÇÃO -->
 <div id="calibracao" class="tela ativa">
   <h2>Calibração</h2>
 
-  <p>Use uma moeda de 50 centavos para ajustar corretamente</p>
+  <p>Use uma moeda de 50 centavos</p>
 
-  <!-- INSTRUÇÕES -->
   <div class="dica">
-    ⚠️ Ajuste o círculo exatamente na borda da moeda<br>
-    Não deixe folga e não ultrapasse
+    ✔ Posicione a moeda na tela<br>
+    ✔ Ajuste o círculo até encostar exatamente na borda<br>
+    ❌ Não deixar folga ou ultrapassar
   </div>
 
   <div class="container">
@@ -33,24 +31,18 @@
       <div id="circuloCalibrar" class="circulo"></div>
     </div>
 
-    <input type="range" id="sliderCalibrar" class="slider" min="50" max="300" value="120">
+    <input type="range" id="sliderCalibrar" class="slider" min="60" max="260" step="1" value="120">
   </div>
 
   <button onclick="confirmarCalibracao()">Confirmar</button>
 </div>
 
-<!-- =========================
-     MEDIÇÃO
-========================= -->
+<!-- MEDIÇÃO -->
 <div id="medicao" class="tela">
   <h2>Descubra seu tamanho</h2>
 
-  <p>Ajuste o círculo ao seu anel</p>
-
-  <!-- INSTRUÇÕES IMPORTANTES -->
   <div class="dica">
-    ✔ Alinhe com a parte <b>INTERNA</b> do anel<br>
-    ❌ Não use a borda externa<br>
+    ✔ Encoste o círculo na parte INTERNA do anel<br>
     ✔ Ajuste até encaixar perfeitamente
   </div>
 
@@ -59,7 +51,7 @@
       <div id="circuloMedir" class="circulo"></div>
     </div>
 
-    <input type="range" id="sliderMedir" class="slider" min="50" max="300" value="120">
+    <input type="range" id="sliderMedir" class="slider" min="60" max="260" step="1" value="120">
   </div>
 
   <div id="resultado">Aro: --</div>
