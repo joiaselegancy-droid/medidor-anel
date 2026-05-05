@@ -3,22 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medidor de Anel - Elegancy Joias</title>
+<title>Medidor de Anel</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+}
+
+/* ÁREA */
+.area {
+  width: 260px;
+  height: 260px;
+  border: 2px dashed #ccc;
+  margin: 20px auto;
+  position: relative;
+}
+
+/* CÍRCULO */
+.circulo {
+  width: 120px;
+  height: 120px;
+  background: red; /* DEBUG VISUAL */
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.6);
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-box {
+  background:white;
+  padding:20px;
+  border-radius:10px;
+}
+
+.whats {
+  display:block;
+  background:#25D366;
+  color:white;
+  padding:10px;
+  margin-top:10px;
+  text-decoration:none;
+}
+</style>
+
 </head>
 
 <body>
 
-<div class="header">
-  <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
-</div>
+<h2>Calibração</h2>
 
-<!-- CALIBRAÇÃO -->
 <div id="calibracao">
 
-  <h2>Calibração</h2>
-  <p>Use uma moeda de 50 centavos</p>
+  <p>Use moeda de 50 centavos</p>
 
   <div class="area">
     <div id="circuloCalibrar" class="circulo"></div>
@@ -26,13 +77,12 @@
 
   <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
 
+  <br><br>
   <button onclick="confirmarCalibracao()">Confirmar</button>
 </div>
 
-<!-- MEDIÇÃO -->
 <div id="medicao" style="display:none;">
-
-  <h2>Descubra seu tamanho</h2>
+  <h2>Medir Anel</h2>
 
   <div class="area">
     <div id="circuloMedir" class="circulo"></div>
@@ -40,38 +90,95 @@
 
   <input type="range" id="sliderMedir" min="60" max="260" value="120">
 
-  <div id="resultado">Aro: --</div>
+  <h3 id="resultado">Aro: --</h3>
 
-  <label>
-    <input type="checkbox" id="confirmacao">
-    Confirmo que conferi a medida
-  </label>
+  <input type="checkbox" id="confirmacao"> Confirmo
 
   <br><br>
-
   <button onclick="confirmarMedida()">Confirmar</button>
 </div>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-box">
-    <h2>🎉 Pronto!</h2>
+    <h2>Pronto!</h2>
     <p id="modalAro"></p>
-
-    <div class="cupom-box">
-      MEDIDACERTA
-      <button id="btnCopiar">Copiar</button>
-    </div>
-
-    <a id="btnWhats" target="_blank" class="whats">
-      Falar no WhatsApp
-    </a>
 
     <button onclick="fecharModal()">Fechar</button>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+// DEBUG
+console.log("JS CARREGOU");
+
+// ELEMENTOS
+const sliderCalibrar = document.getElementById("sliderCalibrar");
+const sliderMedir = document.getElementById("sliderMedir");
+
+const circuloCalibrar = document.getElementById("circuloCalibrar");
+const circuloMedir = document.getElementById("circuloMedir");
+
+const resultado = document.getElementById("resultado");
+
+const modal = document.getElementById("modal");
+const modalAro = document.getElementById("modalAro");
+
+let pixelsPorMm = null;
+
+// CALIBRAR
+sliderCalibrar.oninput = () => {
+  let v = sliderCalibrar.value;
+  circuloCalibrar.style.width = v + "px";
+  circuloCalibrar.style.height = v + "px";
+};
+
+function confirmarCalibracao() {
+  let px = circuloCalibrar.offsetWidth;
+
+  pixelsPorMm = px / 23;
+
+  console.log("Calibrado:", pixelsPorMm);
+
+  document.getElementById("calibracao").style.display = "none";
+  document.getElementById("medicao").style.display = "block";
+}
+
+// MEDIR
+sliderMedir.oninput = () => {
+  let v = sliderMedir.value;
+
+  circuloMedir.style.width = v + "px";
+  circuloMedir.style.height = v + "px";
+
+  if (!pixelsPorMm) {
+    resultado.innerText = "Calibre primeiro";
+    return;
+  }
+
+  let diametro = v / pixelsPorMm;
+  let aro = Math.round((diametro * Math.PI) - 40);
+
+  resultado.innerText = "Aro: " + aro;
+};
+
+// CONFIRMAR
+function confirmarMedida() {
+  let check = document.getElementById("confirmacao");
+
+  if (!check.checked) {
+    alert("Confirme");
+    return;
+  }
+
+  modalAro.innerText = resultado.innerText;
+  modal.style.display = "flex";
+}
+
+// FECHAR
+function fecharModal() {
+  modal.style.display = "none";
+}
+</script>
 
 </body>
 </html>
