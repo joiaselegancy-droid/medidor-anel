@@ -1,21 +1,19 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: #f5f7f7;
   text-align: center;
-  color: #333;
+  padding-bottom: 60px; /* espaço para rodapé fixo */
 }
 
 /* HEADER */
 .header {
-  padding: 20px;
+  padding: 15px;
   background: #fff;
 }
 
-.header h1 {
-  margin: 0;
-  color: #1FB5B5;
-  font-size: 22px;
+.logo {
+  max-width: 180px;
 }
 
 /* TELAS */
@@ -23,13 +21,8 @@ body {
 .tela.ativa { display: block; }
 
 /* TEXTOS */
-h2 {
-  font-size: 22px;
-}
-
-p {
-  font-size: 16px;
-}
+h2 { font-size: 22px; }
+p { font-size: 16px; }
 
 /* CONTAINER */
 .container {
@@ -47,7 +40,7 @@ p {
   background: #fff;
 }
 
-/* DISCO */
+/* CÍRCULO */
 .circulo {
   width: 120px;
   height: 120px;
@@ -57,7 +50,6 @@ p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: 0.1s;
 }
 
 /* FEEDBACK */
@@ -82,23 +74,19 @@ button {
   border: none;
   padding: 16px 26px;
   border-radius: 25px;
-  margin-top: 20px;
   font-size: 18px;
 }
 
 /* RESULTADO */
 #resultado {
   font-size: 30px;
-  margin-top: 15px;
   font-weight: bold;
 }
 
 /* FEEDBACK TEXTO */
 #feedback {
   color: #00c853;
-  font-weight: bold;
   display: none;
-  font-size: 18px;
 }
 
 /* DICA */
@@ -106,15 +94,18 @@ button {
   background: #fff3cd;
   padding: 12px;
   border-radius: 10px;
-  font-size: 15px;
-  margin: 12px auto;
+  margin: 10px auto;
   max-width: 260px;
 }
 
-/* RODAPÉ */
+/* RODAPÉ FIXO */
 footer {
-  margin-top: 30px;
-  padding: 15px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding: 12px;
   font-size: 14px;
   color: #888;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
 }
