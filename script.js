@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+  // ELEMENTOS
   const calibracao = document.getElementById("calibracao");
   const medicao = document.getElementById("medicao");
 
@@ -18,13 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalAro = document.getElementById("modalAro");
   const fecharModal = document.getElementById("fecharModal");
 
-  // 🔒 FORÇA FLUXO CORRETO
+  // INÍCIO FORÇADO
   calibracao.style.display = "block";
   medicao.style.display = "none";
 
   let pixelsPorMm = null;
 
-  // CALIBRAR
+  // ===== CALIBRAÇÃO =====
   sliderCalibrar.addEventListener("input", function () {
     let v = this.value;
     circuloCalibrar.style.width = v + "px";
@@ -35,42 +36,117 @@ document.addEventListener("DOMContentLoaded", function () {
     let px = circuloCalibrar.offsetWidth;
 
     if (!px) {
-      alert("Ajuste o círculo.");
+      alert("Ajuste o círculo exatamente na moeda.");
       return;
     }
 
-    pixelsPorMm = px / 23;
+    pixelsPorMm = px / 23; // moeda 50 centavos
 
     calibracao.style.display = "none";
     medicao.style.display = "block";
   });
 
-  // MEDIR
+  // ===== TABELA PROFISSIONAL =====
+  const tabelaAros = [
+    { aro: 8,  mm: 15.0 },
+    { aro: 9,  mm: 15.3 },
+    { aro: 10, mm: 15.6 },
+    { aro: 11, mm: 15.9 },
+    { aro: 12, mm: 16.2 },
+    { aro: 13, mm: 16.5 },
+    { aro: 14, mm: 16.9 },
+    { aro: 15, mm: 17.2 },
+    { aro: 16, mm: 17.5 },
+    { aro: 17, mm: 17.8 },
+    { aro: 18, mm: 18.1 },
+    { aro: 19, mm: 18.5 },
+    { aro: 20, mm: 18.8 },
+    { aro: 21, mm: 19.1 },
+    { aro: 22, mm: 19.4 },
+    { aro: 23, mm: 19.7 },
+    { aro: 24, mm: 20.1 },
+    { aro: 25, mm: 20.4 },
+    { aro: 26, mm: 20.7 },
+    { aro: 27, mm: 21.0 },
+    { aro: 28, mm: 21.3 },
+    { aro: 29, mm: 21.7 },
+    { aro: 30, mm: 22.0 }
+  ];
+
+  // ===== MEDIÇÃO =====
   sliderMedir.addEventListener("input", function () {
+
     let v = this.value;
 
     circuloMedir.style.width = v + "px";
     circuloMedir.style.height = v + "px";
 
     if (!pixelsPorMm) {
-      resultado.innerText = "Calibre primeiro";
+      resultado.innerText = "Faça a calibração primeiro";
       return;
     }
 
-    let diametro = v / pixelsPorMm;
-    let aro = Math.round((diametro * Math.PI) - 40);
+    // DIÂMETRO REAL
+    let diametro = (v / pixelsPorMm) + 0.1; // ajuste fino
 
-    aro = Math.max(8, Math.min(30, aro));
+    // ENCONTRA MAIS PRÓXIMO
+    let maisProximo = tabelaAros.reduce((prev, curr) => {
+      return Math.abs(curr.mm - diametro) < Math.abs(prev.mm - diametro)
+        ? curr
+        : prev;
+    });
 
-    resultado.innerText = "Aro: " + aro;
+    // SEGUNDO MAIS PRÓXIMO (para análise)
+    let ordenado = [...tabelaAros].sort((a, b) =>
+      Math.abs(a.mm - diametro) - Math.abs(b.mm - diametro)
+    );
+
+    let segundo = ordenado[1];
+
+    // DISTÂNCIA
+    let diff = Math.abs(maisProximo.mm - diametro);
+
+    // ===== LÓGICA INTELIGENTE =====
+    let aroFinal = maisProximo.aro;
+    let mensagem = "";
+
+    // zona de confiança (encaixe perfeito)
+    if (diff < 0.08) {
+      mensagem = "✔ Encaixe perfeito";
+      circuloMedir.style.boxShadow = "0 0 20px #00c853";
+    }
+
+    // zona intermediária (dúvida)
+    else if (diff < 0.18) {
+      mensagem = "Ajuste fino recomendado";
+      circuloMedir.style.boxShadow = "0 0 15px #ffc107";
+    }
+
+    // zona de erro
+    else {
+      mensagem = "Continue ajustando";
+      circuloMedir.style.boxShadow = "none";
+    }
+
+    // recomendação profissional
+    let recomendacao = "";
+    if (diametro > maisProximo.mm) {
+      recomendacao = "Se estiver apertado, escolha +1 aro";
+    }
+
+    resultado.innerHTML =
+      "Aro: " + aroFinal +
+      "<br><small>" + mensagem +
+      "<br>" + recomendacao + "</small>";
   });
 
-  // CONFIRMAR
+  // ===== CONFIRMAR =====
   btnConfirmar.addEventListener("click", function () {
+
     const check = document.getElementById("confirmacao");
 
     if (!check.checked) {
-      alert("Confirme a medida.");
+      alert("Confirme a medida antes de continuar.");
       return;
     }
 
@@ -78,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.style.display = "flex";
   });
 
+  // ===== FECHAR =====
   fecharModal.addEventListener("click", function () {
     modal.style.display = "none";
   });
