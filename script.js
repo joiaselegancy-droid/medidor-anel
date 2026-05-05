@@ -7,7 +7,7 @@ const sliderMedir = document.getElementById("sliderMedir");
 const circuloCalibrar = document.getElementById("circuloCalibrar");
 const circuloMedir = document.getElementById("circuloMedir");
 
-// CALIBRAÇÃO (moeda 50 centavos = 23mm)
+// CALIBRAÇÃO
 sliderCalibrar.oninput = () => {
   let v = sliderCalibrar.value;
   circuloCalibrar.style.width = v + "px";
@@ -48,7 +48,6 @@ function calcular(px) {
   if (aro === ultimoAro) {
     circuloMedir.classList.add("perfeito");
     feedback.style.display = "block";
-
     if (navigator.vibrate) navigator.vibrate(10);
   } else {
     circuloMedir.classList.remove("perfeito");
@@ -58,7 +57,7 @@ function calcular(px) {
   ultimoAro = aro;
 }
 
-// CONFIRMAÇÃO COM CHECKBOX
+// CONFIRMAÇÃO + CUPOM
 function confirmarMedida() {
   let check = document.getElementById("confirmacao");
 
@@ -70,8 +69,9 @@ function confirmarMedida() {
   let aro = document.getElementById("resultado").innerText;
 
   alert(
-    "Sua medida foi confirmada:\n\n" + aro +
-    "\n\n✔ Recomendamos conferir antes da compra.\n" +
-    "Trocas de tamanho podem gerar custos de frete."
+    "✔ Medida confirmada!\n\n" + aro +
+    "\n\n💎 Temos um presente para você!\n" +
+    "Use o cupom MEDIDACERTA e aproveite um desconto especial em sua compra.\n\n" +
+    "✨ Obrigado por escolher a Elegancy Joias."
   );
 }
