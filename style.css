@@ -6,7 +6,6 @@ body {
   padding-bottom: 60px;
 }
 
-/* HEADER */
 .header {
   padding: 20px 10px;
   background: #fff;
@@ -16,20 +15,16 @@ body {
 .logo {
   max-width: 180px;
   width: 100%;
-  height: auto;
   display: block;
   margin: 0 auto;
 }
 
-/* TELAS */
 .tela { display: none; padding: 20px; }
 .tela.ativa { display: block; }
 
-/* TEXTOS */
 h2 { font-size: 22px; }
 p { font-size: 16px; }
 
-/* CONTAINER */
 .container {
   position: relative;
   width: 260px;
@@ -45,7 +40,6 @@ p { font-size: 16px; }
   background: #fff;
 }
 
-/* CÍRCULO */
 .circulo {
   width: 120px;
   height: 120px;
@@ -57,13 +51,11 @@ p { font-size: 16px; }
   transform: translate(-50%, -50%);
 }
 
-/* FEEDBACK */
 .perfeito {
   background: #00c853;
   box-shadow: 0 0 20px #00c853;
 }
 
-/* SLIDER */
 .slider {
   position: absolute;
   right: -70px;
@@ -72,7 +64,6 @@ p { font-size: 16px; }
   width: 220px;
 }
 
-/* BOTÃO */
 button {
   background: #1FB5B5;
   color: white;
@@ -83,20 +74,16 @@ button {
   margin-top: 20px;
 }
 
-/* RESULTADO */
 #resultado {
   font-size: 30px;
   font-weight: bold;
 }
 
-/* FEEDBACK TEXTO */
 #feedback {
   color: #00c853;
   display: none;
-  font-size: 18px;
 }
 
-/* DICA */
 .dica {
   background: #fff3cd;
   padding: 12px;
@@ -105,21 +92,14 @@ button {
   max-width: 260px;
 }
 
-/* CHECKBOX */
 .termos {
   margin-top: 20px;
   text-align: left;
   max-width: 260px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   font-size: 14px;
 }
 
-.termos input {
-  margin-right: 8px;
-}
-
-/* RODAPÉ FIXO */
 footer {
   position: fixed;
   bottom: 0;
