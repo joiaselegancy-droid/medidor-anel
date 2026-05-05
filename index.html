@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medidor de Anel</title>
+<title>Medidor de Anel - Elegancy Joias</title>
 
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
@@ -18,10 +18,12 @@
 
 <h2>Descubra seu tamanho</h2>
 
-<!-- CALIBRAÇÃO -->
-<div id="calibracao">
+<!-- =========================
+     CALIBRAÇÃO (MOEDA)
+========================= -->
+<div id="calibracao" style="display:block;">
 
-  <p>Use uma moeda de 50 centavos</p>
+  <p><b>Passo 1:</b> Use uma moeda de 50 centavos</p>
 
   <div class="area">
     <div id="circuloCalibrar" class="circulo"></div>
@@ -29,13 +31,19 @@
 
   <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
 
+  <p style="font-size:13px;color:#666;">
+    Ajuste o círculo exatamente na borda da moeda
+  </p>
+
   <button onclick="confirmarCalibracao()">Confirmar calibração</button>
 </div>
 
-<!-- MEDIÇÃO -->
+<!-- =========================
+     MEDIÇÃO
+========================= -->
 <div id="medicao" style="display:none;">
 
-  <p>Ajuste na parte interna do anel</p>
+  <p><b>Passo 2:</b> Ajuste no seu anel</p>
 
   <div class="area">
     <div id="circuloMedir" class="circulo"></div>
@@ -45,24 +53,48 @@
 
   <h2 id="resultado">Aro: --</h2>
 
+  <p style="font-size:13px;color:#666;">
+    Use a parte interna do anel para melhor precisão
+  </p>
+
   <label>
     <input type="checkbox" id="confirmacao">
-    Confirmo que conferi a medida
+    Confirmo que conferi a medida corretamente
   </label>
+
+  <br><br>
 
   <button onclick="confirmarMedida()">Confirmar medida</button>
 
 </div>
 
-<!-- MODAL -->
+<!-- =========================
+     MODAL (CUPOM)
+========================= -->
 <div id="modal" class="modal">
   <div class="modal-box">
+
     <h3 id="modalAro"></h3>
-    <p>Cupom: <b>MEDIDACERTA</b></p>
+
+    <p>🎁 Você ganhou um cupom:</p>
+
+    <div class="cupom">
+      <b>MEDIDACERTA</b>
+      <button id="copiar">Copiar</button>
+    </div>
+
+    <p style="font-size:12px;color:#777;">
+      Utilize no checkout para desconto
+    </p>
+
     <button onclick="fecharModal()">Fechar</button>
+
   </div>
 </div>
 
+<!-- =========================
+     RODAPÉ
+========================= -->
 <footer>
   Criado por Elegancy Joias
 </footer>
