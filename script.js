@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const modal = document.getElementById("modal");
   const modalAro = document.getElementById("modalAro");
+  const copiar = document.getElementById("copiar");
 
   let pixelsPorMm = localStorage.getItem("ppm");
 
-  // Se já calibrado, pula
   if (pixelsPorMm) {
-    document.getElementById("calibracao").style.display = "none";
-    document.getElementById("medicao").style.display = "block";
+    calibracao.style.display = "none";
+    medicao.style.display = "block";
   }
 
   // CALIBRAÇÃO
@@ -29,12 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.confirmarCalibracao = () => {
     let px = circuloCalibrar.offsetWidth;
 
-    pixelsPorMm = px / 23; // moeda 50 centavos
-
+    pixelsPorMm = px / 23;
     localStorage.setItem("ppm", pixelsPorMm);
 
-    document.getElementById("calibracao").style.display = "none";
-    document.getElementById("medicao").style.display = "block";
+    calibracao.style.display = "none";
+    medicao.style.display = "block";
   };
 
   // MEDIÇÃO
@@ -44,28 +43,23 @@ document.addEventListener("DOMContentLoaded", () => {
     circuloMedir.style.width = v + "px";
     circuloMedir.style.height = v + "px";
 
-    if (!pixelsPorMm) {
-      resultado.innerText = "Calibre primeiro";
-      return;
-    }
+    if (!pixelsPorMm) return;
 
     let diametro = v / pixelsPorMm;
-    let circunferencia = diametro * Math.PI;
+    let circ = diametro * Math.PI;
 
-    // 🔥 ARO CORRETO (INTEIRO)
-    let aro = Math.round(circunferencia - 40);
+    let aro = Math.round(circ - 40);
 
-    // limite real
     aro = Math.max(8, Math.min(30, aro));
 
     resultado.innerText = "Aro: " + aro;
+
+    if (navigator.vibrate) navigator.vibrate(10);
   };
 
   // CONFIRMAR
   window.confirmarMedida = () => {
-    let check = document.getElementById("confirmacao");
-
-    if (!check.checked) {
+    if (!confirmacao.checked) {
       alert("Confirme a medida.");
       return;
     }
@@ -74,6 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "flex";
   };
 
+  // COPIAR CUPOM
+  copiar.onclick = () => {
+    navigator.clipboard.writeText("MEDIDACERTA");
+    copiar.innerText = "Copiado!";
+  };
+
+  // FECHAR
   window.fecharModal = () => {
     modal.style.display = "none";
   };
