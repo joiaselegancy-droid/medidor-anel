@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
   const calibracao = document.getElementById("calibracao");
   const medicao = document.getElementById("medicao");
@@ -11,34 +11,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const resultado = document.getElementById("resultado");
 
+  const btnCalibrar = document.getElementById("btnCalibrar");
+  const btnConfirmar = document.getElementById("btnConfirmar");
+
   const modal = document.getElementById("modal");
   const modalAro = document.getElementById("modalAro");
+  const fecharModal = document.getElementById("fecharModal");
 
-  let pixelsPorMm = null;
-
-  // GARANTE INÍCIO NA CALIBRAÇÃO
+  // 🔒 FORÇA FLUXO CORRETO
   calibracao.style.display = "block";
   medicao.style.display = "none";
 
-  // CALIBRAÇÃO
-  sliderCalibrar.addEventListener("input", () => {
-    let v = sliderCalibrar.value;
+  let pixelsPorMm = null;
+
+  // CALIBRAR
+  sliderCalibrar.addEventListener("input", function () {
+    let v = this.value;
     circuloCalibrar.style.width = v + "px";
     circuloCalibrar.style.height = v + "px";
   });
 
-  window.confirmarCalibracao = function () {
+  btnCalibrar.addEventListener("click", function () {
     let px = circuloCalibrar.offsetWidth;
 
-    pixelsPorMm = px / 23; // moeda 50 centavos
+    if (!px) {
+      alert("Ajuste o círculo.");
+      return;
+    }
+
+    pixelsPorMm = px / 23;
 
     calibracao.style.display = "none";
     medicao.style.display = "block";
-  };
+  });
 
-  // MEDIÇÃO
-  sliderMedir.addEventListener("input", () => {
-    let v = sliderMedir.value;
+  // MEDIR
+  sliderMedir.addEventListener("input", function () {
+    let v = this.value;
 
     circuloMedir.style.width = v + "px";
     circuloMedir.style.height = v + "px";
@@ -57,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // CONFIRMAR
-  window.confirmarMedida = function () {
+  btnConfirmar.addEventListener("click", function () {
     const check = document.getElementById("confirmacao");
 
     if (!check.checked) {
@@ -67,10 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modalAro.innerText = resultado.innerText;
     modal.style.display = "flex";
-  };
+  });
 
-  window.fecharModal = function () {
+  fecharModal.addEventListener("click", function () {
     modal.style.display = "none";
-  };
+  });
 
 });
