@@ -13,103 +13,50 @@
   <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
 </div>
 
-<!-- CALIBRAÇÃO -->
-<div id="calibracao" class="tela ativa">
-  <h2>Calibração</h2>
-  <p>Use uma moeda de 50 centavos</p>
-
-  <div class="dica">
-    ✔ Ajuste o círculo exatamente na borda da moeda
-  </div>
-
-  <div class="container">
-    <div class="area">
-      <div id="circuloCalibrar" class="circulo"></div>
-    </div>
-
-    <input type="range" id="sliderCalibrar" class="slider">
-  </div>
-
-  <button onclick="confirmarCalibracao()">Confirmar</button>
-</div>
-
 <!-- MEDIÇÃO -->
-<div id="medicao" class="tela">
+<div id="medicao" class="tela ativa">
 
   <h2>Descubra seu tamanho</h2>
-
-  <!-- INSTRUÇÃO VISUAL -->
-  <div class="dica">
-    ✔ Use a parte INTERNA do anel<br>
-    ❌ Não use a borda externa
-  </div>
-
-  <!-- PROVA SOCIAL -->
-  <div class="prova">
-    +1.200 clientes já descobriram seu tamanho com precisão
-  </div>
 
   <div class="container">
     <div class="area">
       <div id="circuloMedir" class="circulo"></div>
     </div>
 
-    <input type="range" id="sliderMedir" class="slider">
+    <input type="range" id="sliderMedir" min="60" max="260" value="120">
   </div>
 
   <div id="resultado">Aro: --</div>
 
   <div class="termos">
     <input type="checkbox" id="confirmacao">
-    <label>Confirme que você conferiu a medida</label>
+    <label>Confirmo que conferi a medida</label>
   </div>
 
-  <button onclick="confirmarMedida()">Confirmar medida</button>
+  <button onclick="confirmarMedida()">Confirmar</button>
 </div>
 
 <!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-box">
 
-    <h2>🎉 Medida confirmada!</h2>
-
+    <h2>🎉 Pronto!</h2>
     <p id="modalAro"></p>
-
-    <!-- GARANTIA -->
-    <p class="garantia">
-      Caso não sirva, nossa equipe ajuda você a ajustar o tamanho.
-    </p>
-
-    <!-- ESCASSEZ -->
-    <p class="urgencia">
-      Cupom válido por tempo limitado
-    </p>
-
-    <!-- COPY FORTE -->
-    <p class="copy">
-      Use o cupom abaixo e finalize sua compra com desconto agora:
-    </p>
 
     <div class="cupom-box">
       <span id="cupom">MEDIDACERTA</span>
-      <button onclick="copiarCupom()" id="btnCopiar">Copiar</button>
+      <button id="btnCopiar">Copiar</button>
     </div>
 
-    <p id="copiadoMsg">Copiado ✓</p>
-
-    <!-- WHATSAPP DINÂMICO -->
     <a id="btnWhats" target="_blank" class="whats">
-      Falar com especialista
+      Falar no WhatsApp
     </a>
 
-    <button class="fechar" onclick="fecharModal()">Fechar</button>
+    <button onclick="fecharModal()">Fechar</button>
 
   </div>
 </div>
 
-<footer>Elegancy Joias</footer>
-
 <script src="script.js"></script>
-
 </body>
 </html>
