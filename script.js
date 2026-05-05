@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+  // ===== ELEMENTOS =====
   const calibracao = document.getElementById("calibracao");
   const medicao = document.getElementById("medicao");
 
@@ -18,12 +19,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalAro = document.getElementById("modalAro");
   const fecharModal = document.getElementById("fecharModal");
 
+  const checkMedida = document.getElementById("confirmacao");
+  const checkTermos = document.getElementById("termosTroca");
+
+  // ===== VALIDAÇÃO DE ELEMENTOS =====
+  if (!calibracao || !medicao) {
+    console.error("Erro: telas não encontradas");
+    return;
+  }
+
+  if (!checkTermos) {
+    console.error("Erro: checkbox de termos NÃO encontrado");
+  }
+
+  // ===== ESTADO INICIAL =====
   calibracao.style.display = "block";
   medicao.style.display = "none";
 
   let pixelsPorMm = null;
 
-  // CALIBRAÇÃO
+  // ===== CALIBRAÇÃO =====
   sliderCalibrar.addEventListener("input", function () {
     let v = this.value;
     circuloCalibrar.style.width = v + "px";
@@ -31,20 +46,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   btnCalibrar.addEventListener("click", function () {
+
     let px = circuloCalibrar.offsetWidth;
 
     if (!px) {
-      alert("Ajuste corretamente na moeda.");
+      alert("Ajuste o círculo corretamente na moeda.");
       return;
     }
 
+    // moeda 50 centavos = 23mm
     pixelsPorMm = px / 23;
 
     calibracao.style.display = "none";
     medicao.style.display = "block";
   });
 
-  // TABELA REAL
+  // ===== TABELA PROFISSIONAL =====
   const tabelaAros = [
     { aro: 8, mm: 15.0 }, { aro: 9, mm: 15.3 }, { aro: 10, mm: 15.6 },
     { aro: 11, mm: 15.9 }, { aro: 12, mm: 16.2 }, { aro: 13, mm: 16.5 },
@@ -56,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
     { aro: 29, mm: 21.7 }, { aro: 30, mm: 22.0 }
   ];
 
-  // MEDIÇÃO
+  // ===== MEDIÇÃO =====
   sliderMedir.addEventListener("input", function () {
 
     let v = this.value;
@@ -64,8 +81,12 @@ document.addEventListener("DOMContentLoaded", function () {
     circuloMedir.style.width = v + "px";
     circuloMedir.style.height = v + "px";
 
-    if (!pixelsPorMm) return;
+    if (!pixelsPorMm) {
+      resultado.innerText = "Faça a calibração primeiro";
+      return;
+    }
 
+    // cálculo real
     let diametro = (v / pixelsPorMm) + 0.1;
 
     let aro = tabelaAros.reduce((prev, curr) => {
@@ -77,19 +98,16 @@ document.addEventListener("DOMContentLoaded", function () {
     resultado.innerText = "Aro: " + aro.aro;
   });
 
-  // CONFIRMAR
+  // ===== CONFIRMAR =====
   btnConfirmar.addEventListener("click", function () {
 
-    const check1 = document.getElementById("confirmacao");
-    const check2 = document.getElementById("termosTroca");
-
-    if (!check1.checked) {
-      alert("Confirme a medida.");
+    if (!checkMedida.checked) {
+      alert("Confirme que conferiu a medida.");
       return;
     }
 
-    if (!check2.checked) {
-      alert("É necessário aceitar as condições de troca.");
+    if (!checkTermos.checked) {
+      alert("É necessário aceitar os termos de troca.");
       return;
     }
 
@@ -97,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.style.display = "flex";
   });
 
+  // ===== FECHAR MODAL =====
   fecharModal.addEventListener("click", function () {
     modal.style.display = "none";
   });
