@@ -7,7 +7,7 @@ const sliderMedir = document.getElementById("sliderMedir");
 const circuloCalibrar = document.getElementById("circuloCalibrar");
 const circuloMedir = document.getElementById("circuloMedir");
 
-// CALIBRAÇÃO (50 centavos = 23 mm)
+// CALIBRAÇÃO (50 centavos = 23mm)
 sliderCalibrar.oninput = () => {
   let v = sliderCalibrar.value;
   circuloCalibrar.style.width = v + "px";
@@ -16,7 +16,6 @@ sliderCalibrar.oninput = () => {
 
 function confirmarCalibracao() {
   let px = circuloCalibrar.offsetWidth;
-
   pixelsPorMm = px / 23;
 
   localStorage.setItem("ppm", pixelsPorMm);
@@ -38,7 +37,6 @@ sliderMedir.oninput = () => {
 // CÁLCULO
 function calcular(px) {
   let diametro = px / pixelsPorMm;
-
   let aro = Math.round((diametro * Math.PI) - 40);
 
   aro = Math.max(8, Math.min(30, aro));
@@ -60,8 +58,13 @@ function calcular(px) {
   ultimoAro = aro;
 }
 
-// COMPRA
+// COMPRA DIRETA (TRAY)
 function comprar() {
   let aro = document.getElementById("resultado").innerText.replace("Aro: ", "");
-  window.location.href = "https://www.elegancyjoias.com.br/busca?aro=" + aro;
+
+  // 🔥 VOCÊ VAI TROCAR ESSE LINK PELO SEU PRODUTO
+  let produtoBase = "https://www.elegancyjoias.com.br/anel-solitario";
+
+  // exemplo de envio de variação
+  window.location.href = produtoBase + "?aro=" + aro;
 }
