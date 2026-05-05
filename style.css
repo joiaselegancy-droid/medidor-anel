@@ -2,10 +2,9 @@ body {
   font-family: Arial;
   text-align: center;
   margin: 0;
-  padding-bottom: 60px;
+  padding-bottom: 70px;
 }
 
-/* LOGO */
 .header {
   padding: 10px;
 }
@@ -42,12 +41,25 @@ button {
   border-radius: 20px;
   background: #1FB5B5;
   color: white;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 /* ESCONDE MEDIÇÃO */
 #medicao {
   display: none;
+}
+
+/* CHECKBOX */
+.confirmacao-box {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.termos {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #666;
 }
 
 /* MODAL */
@@ -66,7 +78,15 @@ button {
 .modal-box {
   background: white;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
+}
+
+.cupom {
+  background: #eee;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 /* RODAPÉ */
@@ -76,6 +96,6 @@ footer {
   width: 100%;
   background: #fff;
   border-top: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   font-size: 12px;
 }
