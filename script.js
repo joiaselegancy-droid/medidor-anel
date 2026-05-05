@@ -1,6 +1,8 @@
 let pixelsPorMm = localStorage.getItem("ppm") || 1;
 let ultimoAro = null;
 
+const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3");
+
 // CALIBRAÇÃO
 sliderCalibrar.oninput = () => {
   let v = sliderCalibrar.value;
@@ -35,8 +37,10 @@ function calcular(px) {
 
   if (aro === ultimoAro) {
     circuloMedir.classList.add("perfeito");
+    feedback.style.display = "block";
   } else {
     circuloMedir.classList.remove("perfeito");
+    feedback.style.display = "none";
   }
 
   ultimoAro = aro;
@@ -50,13 +54,26 @@ function confirmarMedida() {
   }
 
   modalAro.innerText = resultado.innerText;
+
   modal.style.display = "flex";
+
+  setTimeout(() => {
+    modal.classList.add("ativo");
+  }, 10);
+
+  // Vibração
+  if (navigator.vibrate) {
+    navigator.vibrate([20, 40, 20]);
+  }
+
+  // Som
+  audio.currentTime = 0;
+  audio.play();
 }
 
-// COPIAR CUPOM
+// COPIAR
 function copiarCupom() {
   navigator.clipboard.writeText("MEDIDACERTA");
-
   copiadoMsg.style.display = "block";
 
   setTimeout(() => {
@@ -66,5 +83,9 @@ function copiarCupom() {
 
 // FECHAR
 function fecharModal() {
-  modal.style.display = "none";
+  modal.classList.remove("ativo");
+
+  setTimeout(() => {
+    modal.style.display = "none";
+  }, 300);
 }
