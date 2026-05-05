@@ -1,162 +1,78 @@
-document.addEventListener("DOMContentLoaded", function () {
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medidor de Anel - Elegancy Joias</title>
 
-  // ELEMENTOS
-  const calibracao = document.getElementById("calibracao");
-  const medicao = document.getElementById("medicao");
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
 
-  const sliderCalibrar = document.getElementById("sliderCalibrar");
-  const sliderMedir = document.getElementById("sliderMedir");
+<body>
 
-  const circuloCalibrar = document.getElementById("circuloCalibrar");
-  const circuloMedir = document.getElementById("circuloMedir");
+<div class="header">
+  <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
+</div>
 
-  const resultado = document.getElementById("resultado");
+<h2>Descubra seu tamanho</h2>
 
-  const btnCalibrar = document.getElementById("btnCalibrar");
-  const btnConfirmar = document.getElementById("btnConfirmar");
+<!-- CALIBRAÇÃO -->
+<div id="calibracao">
+  <p><b>Passo 1:</b> Use uma moeda de 50 centavos</p>
 
-  const modal = document.getElementById("modal");
-  const modalAro = document.getElementById("modalAro");
-  const fecharModal = document.getElementById("fecharModal");
+  <div class="area">
+    <div id="circuloCalibrar" class="circulo"></div>
+  </div>
 
-  // INÍCIO FORÇADO
-  calibracao.style.display = "block";
-  medicao.style.display = "none";
+  <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
 
-  let pixelsPorMm = null;
+  <button id="btnCalibrar">Confirmar calibração</button>
+</div>
 
-  // ===== CALIBRAÇÃO =====
-  sliderCalibrar.addEventListener("input", function () {
-    let v = this.value;
-    circuloCalibrar.style.width = v + "px";
-    circuloCalibrar.style.height = v + "px";
-  });
+<!-- MEDIÇÃO -->
+<div id="medicao">
+  <p><b>Passo 2:</b> Ajuste no anel</p>
 
-  btnCalibrar.addEventListener("click", function () {
-    let px = circuloCalibrar.offsetWidth;
+  <div class="area">
+    <div id="circuloMedir" class="circulo"></div>
+  </div>
 
-    if (!px) {
-      alert("Ajuste o círculo exatamente na moeda.");
-      return;
-    }
+  <input type="range" id="sliderMedir" min="60" max="260" value="120">
 
-    pixelsPorMm = px / 23; // moeda 50 centavos
+  <h2 id="resultado">Aro: --</h2>
 
-    calibracao.style.display = "none";
-    medicao.style.display = "block";
-  });
+  <!-- 🔴 BLOCO GARANTIDO -->
+  <div class="confirmacao-box">
 
-  // ===== TABELA PROFISSIONAL =====
-  const tabelaAros = [
-    { aro: 8,  mm: 15.0 },
-    { aro: 9,  mm: 15.3 },
-    { aro: 10, mm: 15.6 },
-    { aro: 11, mm: 15.9 },
-    { aro: 12, mm: 16.2 },
-    { aro: 13, mm: 16.5 },
-    { aro: 14, mm: 16.9 },
-    { aro: 15, mm: 17.2 },
-    { aro: 16, mm: 17.5 },
-    { aro: 17, mm: 17.8 },
-    { aro: 18, mm: 18.1 },
-    { aro: 19, mm: 18.5 },
-    { aro: 20, mm: 18.8 },
-    { aro: 21, mm: 19.1 },
-    { aro: 22, mm: 19.4 },
-    { aro: 23, mm: 19.7 },
-    { aro: 24, mm: 20.1 },
-    { aro: 25, mm: 20.4 },
-    { aro: 26, mm: 20.7 },
-    { aro: 27, mm: 21.0 },
-    { aro: 28, mm: 21.3 },
-    { aro: 29, mm: 21.7 },
-    { aro: 30, mm: 22.0 }
-  ];
+    <label class="linha">
+      <input type="checkbox" id="confirmacao">
+      Confirmo que conferi a medida corretamente
+    </label>
 
-  // ===== MEDIÇÃO =====
-  sliderMedir.addEventListener("input", function () {
+    <label class="linha termos">
+      <input type="checkbox" id="termosTroca">
+      Estou ciente de que podem ocorrer variações na medição e que trocas podem gerar custos de envio (ida e volta)
+    </label>
 
-    let v = this.value;
+  </div>
 
-    circuloMedir.style.width = v + "px";
-    circuloMedir.style.height = v + "px";
+  <button id="btnConfirmar">Confirmar medida</button>
+</div>
 
-    if (!pixelsPorMm) {
-      resultado.innerText = "Faça a calibração primeiro";
-      return;
-    }
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <h3 id="modalAro"></h3>
+    <p>🎁 Use o cupom:</p>
+    <div class="cupom">MEDIDACERTA</div>
+    <button id="fecharModal">Fechar</button>
+  </div>
+</div>
 
-    // DIÂMETRO REAL
-    let diametro = (v / pixelsPorMm) + 0.1; // ajuste fino
+<footer>
+  Criado por Elegancy Joias
+</footer>
 
-    // ENCONTRA MAIS PRÓXIMO
-    let maisProximo = tabelaAros.reduce((prev, curr) => {
-      return Math.abs(curr.mm - diametro) < Math.abs(prev.mm - diametro)
-        ? curr
-        : prev;
-    });
-
-    // SEGUNDO MAIS PRÓXIMO (para análise)
-    let ordenado = [...tabelaAros].sort((a, b) =>
-      Math.abs(a.mm - diametro) - Math.abs(b.mm - diametro)
-    );
-
-    let segundo = ordenado[1];
-
-    // DISTÂNCIA
-    let diff = Math.abs(maisProximo.mm - diametro);
-
-    // ===== LÓGICA INTELIGENTE =====
-    let aroFinal = maisProximo.aro;
-    let mensagem = "";
-
-    // zona de confiança (encaixe perfeito)
-    if (diff < 0.08) {
-      mensagem = "✔ Encaixe perfeito";
-      circuloMedir.style.boxShadow = "0 0 20px #00c853";
-    }
-
-    // zona intermediária (dúvida)
-    else if (diff < 0.18) {
-      mensagem = "Ajuste fino recomendado";
-      circuloMedir.style.boxShadow = "0 0 15px #ffc107";
-    }
-
-    // zona de erro
-    else {
-      mensagem = "Continue ajustando";
-      circuloMedir.style.boxShadow = "none";
-    }
-
-    // recomendação profissional
-    let recomendacao = "";
-    if (diametro > maisProximo.mm) {
-      recomendacao = "Se estiver apertado, escolha +1 aro";
-    }
-
-    resultado.innerHTML =
-      "Aro: " + aroFinal +
-      "<br><small>" + mensagem +
-      "<br>" + recomendacao + "</small>";
-  });
-
-  // ===== CONFIRMAR =====
-  btnConfirmar.addEventListener("click", function () {
-
-    const check = document.getElementById("confirmacao");
-
-    if (!check.checked) {
-      alert("Confirme a medida antes de continuar.");
-      return;
-    }
-
-    modalAro.innerText = resultado.innerText;
-    modal.style.display = "flex";
-  });
-
-  // ===== FECHAR =====
-  fecharModal.addEventListener("click", function () {
-    modal.style.display = "none";
-  });
-
-});
+</body>
+</html>
