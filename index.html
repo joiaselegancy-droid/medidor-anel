@@ -11,6 +11,7 @@
 
 <body>
 
+<!-- LOGO -->
 <div class="header">
   <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
 </div>
@@ -27,7 +28,7 @@
 
   <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
 
-  <button onclick="confirmarCalibracao()">Confirmar calibração</button>
+  <button id="btnCalibrar">Confirmar calibração</button>
 </div>
 
 <!-- MEDIÇÃO -->
@@ -49,15 +50,15 @@
 
   <br><br>
 
-  <button onclick="confirmarMedida()">Confirmar medida</button>
+  <button id="btnConfirmar">Confirmar medida</button>
 </div>
 
 <!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <h3 id="modalAro"></h3>
-    <p>Cupom: <b>MEDIDACERTA</b></p>
-    <button onclick="fecharModal()">Fechar</button>
+    <p>🎁 Cupom: <b>MEDIDACERTA</b></p>
+    <button id="fecharModal">Fechar</button>
   </div>
 </div>
 
