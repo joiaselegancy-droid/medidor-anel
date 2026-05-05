@@ -10,78 +10,56 @@
 
 <body>
 
-<!-- LOGO -->
 <div class="header">
   <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
 </div>
 
-<!-- =========================
-     CALIBRAÇÃO
-========================= -->
-<div id="calibracao" class="tela">
+<!-- CALIBRAÇÃO -->
+<div id="calibracao">
 
   <h2>Calibração</h2>
-
   <p>Use uma moeda de 50 centavos</p>
 
-  <div class="dica">
-    ✔ Ajuste o círculo exatamente na borda da moeda<br>
-    ❌ Não deixe folga
+  <div class="area">
+    <div id="circuloCalibrar" class="circulo"></div>
   </div>
 
-  <div class="container">
-    <div class="area">
-      <div id="circuloCalibrar" class="circulo"></div>
-    </div>
-
-    <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
-  </div>
+  <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
 
   <button onclick="confirmarCalibracao()">Confirmar</button>
 </div>
 
-<!-- =========================
-     MEDIÇÃO
-========================= -->
-<div id="medicao" class="tela" style="display:none;">
+<!-- MEDIÇÃO -->
+<div id="medicao" style="display:none;">
 
   <h2>Descubra seu tamanho</h2>
 
-  <div class="dica">
-    ✔ Use a parte INTERNA do anel<br>
-    ✔ Ajuste até encaixar perfeitamente
+  <div class="area">
+    <div id="circuloMedir" class="circulo"></div>
   </div>
 
-  <div class="container">
-    <div class="area">
-      <div id="circuloMedir" class="circulo"></div>
-    </div>
-
-    <input type="range" id="sliderMedir" min="60" max="260" value="120">
-  </div>
+  <input type="range" id="sliderMedir" min="60" max="260" value="120">
 
   <div id="resultado">Aro: --</div>
 
-  <div class="termos">
+  <label>
     <input type="checkbox" id="confirmacao">
-    <label>Confirmo que conferi a medida</label>
-  </div>
+    Confirmo que conferi a medida
+  </label>
 
-  <button onclick="confirmarMedida()">Confirmar medida</button>
+  <br><br>
+
+  <button onclick="confirmarMedida()">Confirmar</button>
 </div>
 
-<!-- =========================
-     MODAL
-========================= -->
+<!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-box">
-
-    <h2>🎉 Medida confirmada!</h2>
-
+    <h2>🎉 Pronto!</h2>
     <p id="modalAro"></p>
 
     <div class="cupom-box">
-      <span>MEDIDACERTA</span>
+      MEDIDACERTA
       <button id="btnCopiar">Copiar</button>
     </div>
 
@@ -90,13 +68,8 @@
     </a>
 
     <button onclick="fecharModal()">Fechar</button>
-
   </div>
 </div>
-
-<footer>
-  Criado por Elegancy Joias
-</footer>
 
 <script src="script.js"></script>
 
