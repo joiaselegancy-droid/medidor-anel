@@ -14,9 +14,9 @@
   <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
 </div>
 
+<!-- CALIBRAÇÃO -->
 <div id="calibracao" class="tela ativa">
   <h2>Calibração</h2>
-
   <p>Use uma moeda de 50 centavos</p>
 
   <div class="dica">
@@ -35,6 +35,7 @@
   <button onclick="confirmarCalibracao()">Confirmar</button>
 </div>
 
+<!-- MEDIÇÃO -->
 <div id="medicao" class="tela">
   <h2>Descubra seu tamanho</h2>
 
@@ -57,11 +58,33 @@
   <div class="termos">
     <input type="checkbox" id="confirmacao">
     <label for="confirmacao">
-      Declaro que conferi a medida e estou ciente que eventuais trocas podem gerar custos de frete.
+      Declaro que conferi a medida e estou ciente que trocas podem gerar custos de frete.
     </label>
   </div>
 
   <button onclick="confirmarMedida()">Confirmar medida</button>
+</div>
+
+<!-- MODAL PREMIUM -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <h2>🎉 Medida confirmada!</h2>
+
+    <p id="modalAro"></p>
+
+    <p class="cupom-texto">
+      Você ganhou um benefício especial:
+    </p>
+
+    <div class="cupom-box">
+      <span id="cupom">MEDIDACERTA</span>
+      <button onclick="copiarCupom()">Copiar</button>
+    </div>
+
+    <p id="copiadoMsg">Cupom copiado!</p>
+
+    <button class="fechar" onclick="fecharModal()">Fechar</button>
+  </div>
 </div>
 
 <footer>
