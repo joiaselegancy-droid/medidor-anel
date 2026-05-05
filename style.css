@@ -5,13 +5,9 @@ body {
   padding-bottom: 60px;
 }
 
-/* LOGO */
-.header {
-  padding: 10px;
-}
-
 .logo {
-  max-width: 110px; /* corrigido (antes estava grande) */
+  max-width: 110px;
+  margin: 10px auto;
 }
 
 /* ÁREA */
@@ -37,12 +33,17 @@ body {
 
 /* BOTÃO */
 button {
-  margin-top: 15px;
   padding: 12px 20px;
   border: none;
   border-radius: 20px;
   background: #1FB5B5;
   color: white;
+  margin-top: 10px;
+}
+
+/* ESCONDER MEDIÇÃO NO INÍCIO */
+#medicao {
+  display: none;
 }
 
 /* MODAL */
