@@ -7,7 +7,7 @@ const sliderMedir = document.getElementById("sliderMedir");
 const circuloCalibrar = document.getElementById("circuloCalibrar");
 const circuloMedir = document.getElementById("circuloMedir");
 
-// CALIBRAÇÃO (50 centavos = 23mm)
+// CALIBRAÇÃO
 sliderCalibrar.oninput = () => {
   let v = sliderCalibrar.value;
   circuloCalibrar.style.width = v + "px";
@@ -58,13 +58,20 @@ function calcular(px) {
   ultimoAro = aro;
 }
 
-// COMPRA DIRETA (TRAY)
-function comprar() {
-  let aro = document.getElementById("resultado").innerText.replace("Aro: ", "");
+// CONFIRMAÇÃO COM CHECKBOX
+function confirmarMedida() {
+  let check = document.getElementById("confirmacao");
 
-  // 🔥 VOCÊ VAI TROCAR ESSE LINK PELO SEU PRODUTO
-  let produtoBase = "https://www.elegancyjoias.com.br/anel-solitario";
+  if (!check.checked) {
+    alert("Por favor, confirme que você conferiu a medida antes de continuar.");
+    return;
+  }
 
-  // exemplo de envio de variação
-  window.location.href = produtoBase + "?aro=" + aro;
+  let aro = document.getElementById("resultado").innerText;
+
+  alert(
+    "Sua medida foi confirmada:\n\n" + aro +
+    "\n\n✔ Recomendamos conferir antes da compra.\n" +
+    "Trocas de tamanho podem gerar custos de frete."
+  );
 }
