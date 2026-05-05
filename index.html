@@ -10,8 +10,9 @@
 
 <body>
 
+<!-- HEADER COM LOGO -->
 <div class="header">
-  <h1>Elegancy Joias</h1>
+  <img src="logo.png" alt="Elegancy Joias" class="logo">
 </div>
 
 <!-- CALIBRAÇÃO -->
@@ -21,9 +22,8 @@
   <p>Use uma moeda de 50 centavos</p>
 
   <div class="dica">
-    ✔ Posicione a moeda na tela<br>
-    ✔ Ajuste o círculo até encostar exatamente na borda<br>
-    ❌ Não deixar folga ou ultrapassar
+    ✔ Ajuste o círculo exatamente na borda da moeda<br>
+    ❌ Não deixe folga
   </div>
 
   <div class="container">
@@ -31,7 +31,7 @@
       <div id="circuloCalibrar" class="circulo"></div>
     </div>
 
-    <input type="range" id="sliderCalibrar" class="slider" min="60" max="260" step="1" value="120">
+    <input type="range" id="sliderCalibrar" class="slider" min="60" max="260" value="120">
   </div>
 
   <button onclick="confirmarCalibracao()">Confirmar</button>
@@ -51,7 +51,7 @@
       <div id="circuloMedir" class="circulo"></div>
     </div>
 
-    <input type="range" id="sliderMedir" class="slider" min="60" max="260" step="1" value="120">
+    <input type="range" id="sliderMedir" class="slider" min="60" max="260" value="120">
   </div>
 
   <div id="resultado">Aro: --</div>
@@ -60,7 +60,7 @@
   <button onclick="comprar()">Comprar com esse tamanho</button>
 </div>
 
-<!-- RODAPÉ -->
+<!-- RODAPÉ FIXO -->
 <footer>
   Criado por Elegancy Joias
 </footer>
