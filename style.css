@@ -1,16 +1,8 @@
 body {
   font-family: Arial;
   text-align: center;
-  margin: 0;
 }
 
-.logo {
-  max-width: 150px;
-  margin: 20px auto;
-  display: block;
-}
-
-/* ÁREA */
 .area {
   width: 260px;
   height: 260px;
@@ -19,7 +11,6 @@ body {
   position: relative;
 }
 
-/* CÍRCULO */
 .circulo {
   width: 120px;
   height: 120px;
@@ -31,12 +22,6 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* SLIDER */
-input[type=range] {
-  width: 200px;
-}
-
-/* MODAL */
 .modal {
   display: none;
   position: fixed;
@@ -53,13 +38,4 @@ input[type=range] {
   background:white;
   padding:20px;
   border-radius:10px;
-}
-
-.whats {
-  display:block;
-  background:#25D366;
-  color:white;
-  padding:10px;
-  margin-top:10px;
-  text-decoration:none;
 }
