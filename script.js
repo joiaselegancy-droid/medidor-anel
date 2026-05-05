@@ -7,7 +7,7 @@ const sliderMedir = document.getElementById("sliderMedir");
 const circuloCalibrar = document.getElementById("circuloCalibrar");
 const circuloMedir = document.getElementById("circuloMedir");
 
-// CALIBRAÇÃO
+// CALIBRAÇÃO (moeda 50 centavos = 23mm)
 sliderCalibrar.oninput = () => {
   let v = sliderCalibrar.value;
   circuloCalibrar.style.width = v + "px";
@@ -63,7 +63,7 @@ function confirmarMedida() {
   let check = document.getElementById("confirmacao");
 
   if (!check.checked) {
-    alert("Por favor, confirme que você conferiu a medida antes de continuar.");
+    alert("Por favor, confirme que você conferiu a medida.");
     return;
   }
 
