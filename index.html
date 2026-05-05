@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medidor Premium - Elegancy Joias</title>
+<title>Medidor de Anel - Elegancy Joias</title>
 
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
@@ -11,11 +11,12 @@
 
 <body>
 
-<h2>Descubra seu tamanho</h2>
+<!-- LOGO -->
+<div class="header">
+  <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
+</div>
 
-<p class="sub">
-Ajuste com precisão e encontre seu aro ideal
-</p>
+<h2>Descubra seu tamanho</h2>
 
 <!-- CALIBRAÇÃO -->
 <div id="calibracao">
@@ -28,14 +29,13 @@ Ajuste com precisão e encontre seu aro ideal
 
   <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
 
-  <br><br>
   <button onclick="confirmarCalibracao()">Confirmar calibração</button>
 </div>
 
 <!-- MEDIÇÃO -->
 <div id="medicao" style="display:none;">
 
-  <p class="dica">Ajuste na parte interna do anel</p>
+  <p>Ajuste na parte INTERNA do anel</p>
 
   <div class="area">
     <div id="circuloMedir" class="circulo"></div>
@@ -45,29 +45,38 @@ Ajuste com precisão e encontre seu aro ideal
 
   <h2 id="resultado">Aro: --</h2>
 
-  <p class="aviso">
-    Pode haver variação de até 1 aro dependendo do modelo do anel
-  </p>
-
   <label>
     <input type="checkbox" id="confirmacao">
     Confirmo que conferi a medida
   </label>
 
-  <br><br>
-
   <button onclick="confirmarMedida()">Confirmar medida</button>
 
 </div>
 
-<!-- MODAL -->
+<!-- MODAL CUPOM -->
 <div id="modal" class="modal">
   <div class="modal-box">
-    <h2>🎉 Medida confirmada</h2>
+
+    <h2>🎉 Parabéns!</h2>
     <p id="modalAro"></p>
-    <button onclick="fecharModal()">Fechar</button>
+
+    <p>Você ganhou um cupom:</p>
+
+    <div class="cupom">
+      MEDIDACERTA
+      <button id="copiar">Copiar</button>
+    </div>
+
+    <button onclick="fecharModal()">Continuar</button>
+
   </div>
 </div>
+
+<!-- RODAPÉ -->
+<footer>
+  Criado por Elegancy Joias
+</footer>
 
 </body>
 </html>
