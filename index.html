@@ -3,20 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medidor de Anel</title>
+<title>Medidor de Anel - Elegancy Joias</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- LOGO -->
 <div class="header">
   <img src="https://images.tcdn.com.br/img/img_prod/746662/1629095744_novo_logo1.jpg" class="logo">
 </div>
 
-<!-- MEDIÇÃO -->
-<div id="medicao" class="tela ativa">
+<!-- =========================
+     CALIBRAÇÃO
+========================= -->
+<div id="calibracao" class="tela">
+
+  <h2>Calibração</h2>
+
+  <p>Use uma moeda de 50 centavos</p>
+
+  <div class="dica">
+    ✔ Ajuste o círculo exatamente na borda da moeda<br>
+    ❌ Não deixe folga
+  </div>
+
+  <div class="container">
+    <div class="area">
+      <div id="circuloCalibrar" class="circulo"></div>
+    </div>
+
+    <input type="range" id="sliderCalibrar" min="60" max="260" value="120">
+  </div>
+
+  <button onclick="confirmarCalibracao()">Confirmar</button>
+</div>
+
+<!-- =========================
+     MEDIÇÃO
+========================= -->
+<div id="medicao" class="tela" style="display:none;">
 
   <h2>Descubra seu tamanho</h2>
+
+  <div class="dica">
+    ✔ Use a parte INTERNA do anel<br>
+    ✔ Ajuste até encaixar perfeitamente
+  </div>
 
   <div class="container">
     <div class="area">
@@ -33,18 +67,21 @@
     <label>Confirmo que conferi a medida</label>
   </div>
 
-  <button onclick="confirmarMedida()">Confirmar</button>
+  <button onclick="confirmarMedida()">Confirmar medida</button>
 </div>
 
-<!-- MODAL -->
+<!-- =========================
+     MODAL
+========================= -->
 <div id="modal" class="modal">
   <div class="modal-box">
 
-    <h2>🎉 Pronto!</h2>
+    <h2>🎉 Medida confirmada!</h2>
+
     <p id="modalAro"></p>
 
     <div class="cupom-box">
-      <span id="cupom">MEDIDACERTA</span>
+      <span>MEDIDACERTA</span>
       <button id="btnCopiar">Copiar</button>
     </div>
 
@@ -57,6 +94,11 @@
   </div>
 </div>
 
+<footer>
+  Criado por Elegancy Joias
+</footer>
+
 <script src="script.js"></script>
+
 </body>
 </html>
