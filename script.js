@@ -1,6 +1,3 @@
-console.log("JS carregado");
-
-// ESPERA CARREGAR DOM
 document.addEventListener("DOMContentLoaded", () => {
 
   const sliderCalibrar = document.getElementById("sliderCalibrar");
@@ -11,12 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const resultado = document.getElementById("resultado");
 
-  const modal = document.getElementById("modal");
-  const modalAro = document.getElementById("modalAro");
+  let pixelsPorMm = localStorage.getItem("ppm");
 
-  let pixelsPorMm = null;
+  // 👉 SE JÁ CALIBRADO, PULA DIRETO
+  if (pixelsPorMm) {
+    document.getElementById("calibracao").style.display = "none";
+    document.getElementById("medicao").style.display = "block";
+  }
 
-  // CALIBRAR
+  // CALIBRAÇÃO
   sliderCalibrar.oninput = () => {
     let v = sliderCalibrar.value;
     circuloCalibrar.style.width = v + "px";
@@ -25,13 +25,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.confirmarCalibracao = function () {
     let px = circuloCalibrar.offsetWidth;
-    pixelsPorMm = px / 23;
+
+    pixelsPorMm = px / 23; // moeda 50 centavos
+
+    localStorage.setItem("ppm", pixelsPorMm);
 
     document.getElementById("calibracao").style.display = "none";
     document.getElementById("medicao").style.display = "block";
   };
 
-  // MEDIR
+  // MEDIÇÃO
   sliderMedir.oninput = () => {
     let v = sliderMedir.value;
 
@@ -44,27 +47,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let diametro = v / pixelsPorMm;
-    let aro = Math.round((diametro * Math.PI) - 40);
+
+    // 🔥 MAIS PRECISO
+    let aro = Math.round((diametro * Math.PI - 40) * 10) / 10;
 
     resultado.innerText = "Aro: " + aro;
+
+    circuloMedir.classList.add("perfeito");
   };
 
-  // CONFIRMAR
+  // CONFIRMAR (WHATSAPP DIRETO)
   window.confirmarMedida = function () {
     let check = document.getElementById("confirmacao");
 
     if (!check.checked) {
-      alert("Confirme");
+      alert("Confirme a medida.");
       return;
     }
 
-    modalAro.innerText = resultado.innerText;
-    modal.style.display = "flex";
-  };
+    let aro = resultado.innerText;
 
-  // FECHAR
-  window.fecharModal = function () {
-    modal.style.display = "none";
+    let msg = encodeURIComponent("Olá! Meu tamanho é " + aro);
+    window.location.href = `https://wa.me/5517991611311?text=${msg}`;
   };
 
 });
