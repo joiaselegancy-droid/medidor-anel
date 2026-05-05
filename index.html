@@ -10,7 +10,6 @@
 
 <body>
 
-<!-- HEADER COM LOGO -->
 <div class="header">
   <img src="logo.png" alt="Elegancy Joias" class="logo">
 </div>
@@ -57,10 +56,17 @@
   <div id="resultado">Aro: --</div>
   <div id="feedback">✔ Encaixe perfeito</div>
 
-  <button onclick="comprar()">Comprar com esse tamanho</button>
+  <!-- CHECKBOX -->
+  <div class="termos">
+    <input type="checkbox" id="confirmacao">
+    <label for="confirmacao">
+      Declaro que conferi a medida e estou ciente que eventuais trocas de tamanho podem gerar custos de frete.
+    </label>
+  </div>
+
+  <button onclick="confirmarMedida()">Confirmar medida</button>
 </div>
 
-<!-- RODAPÉ FIXO -->
 <footer>
   Criado por Elegancy Joias
 </footer>
