@@ -14,11 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("modal");
   const modalAro = document.getElementById("modalAro");
 
+  // 🔴 FORÇA começar na calibração
+  calibracao.style.display = "block";
+  medicao.style.display = "none";
+
   let pixelsPorMm = null;
 
-  // CALIBRAÇÃO
+  // ===== CALIBRAÇÃO =====
   sliderCalibrar.oninput = () => {
     let v = sliderCalibrar.value;
+
     circuloCalibrar.style.width = v + "px";
     circuloCalibrar.style.height = v + "px";
   };
@@ -26,13 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
   window.confirmarCalibracao = () => {
     let px = circuloCalibrar.offsetWidth;
 
-    pixelsPorMm = px / 23;
+    pixelsPorMm = px / 23; // moeda 50 centavos
 
     calibracao.style.display = "none";
     medicao.style.display = "block";
   };
 
-  // MEDIÇÃO
+  // ===== MEDIÇÃO =====
   sliderMedir.oninput = () => {
     let v = sliderMedir.value;
 
@@ -40,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     circuloMedir.style.height = v + "px";
 
     if (!pixelsPorMm) {
-      resultado.innerText = "Calibre primeiro";
+      resultado.innerText = "Faça a calibração primeiro";
       return;
     }
 
@@ -52,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resultado.innerText = "Aro: " + aro;
   };
 
-  // CONFIRMAR
+  // ===== CONFIRMAR =====
   window.confirmarMedida = () => {
     const check = document.getElementById("confirmacao");
 
